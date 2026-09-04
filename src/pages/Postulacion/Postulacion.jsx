@@ -35,11 +35,38 @@ export default function Postulacion() {
   const tooltipTimeoutsRef = useRef([])
   const grainBgRef = useRef(null)
   const cursorRef = useRef(null)
+  const introGrainImgRef = useRef(null)
+
+  function handleIntroGrainLoad() {
+    setIntroGrainLoaded(true)
+    setGrainReady(true)
+    startIntro()
+  }
 
   useEffect(() => {
+    // A cached image can finish loading (and fire 'load') before this effect
+    // attaches, before the onLoad prop is wired up, or even before React
+    // commits the listener — leaving the intro stuck forever. Cover that by
+    // checking the already-resolved state on mount, and add a hard fallback
+    // in case the image never resolves at all (slow network, blocked request).
+    if (introGrainImgRef.current?.complete) {
+      handleIntroGrainLoad()
+    }
+    const fallback = setTimeout(handleIntroGrainLoad, 1800)
+    timeoutsRef.current.push(fallback)
+
     return () => {
       timeoutsRef.current.forEach(clearTimeout)
+      timeoutsRef.current = []
       tooltipTimeoutsRef.current.forEach(clearTimeout)
+      tooltipTimeoutsRef.current = []
+      // Undo the "already started" mark too — StrictMode's dev-only
+      // mount → cleanup → mount cycle can run this synchronously before
+      // any timer fires, cancelling the scheduled typing chain. Without
+      // resetting this, the surviving mount's startIntro() call sees
+      // "already started" and skips scheduling a new one, leaving the
+      // intro stuck forever.
+      introStartedRef.current = false
     }
   }, [])
 
@@ -157,14 +184,12 @@ export default function Postulacion() {
           className={`introOverlay${grainReady ? ' grain-ready' : ''}${overlayFading ? ' fading' : ''}`}
         >
           <img
+            ref={introGrainImgRef}
             src="/assets/paper-grain.jpg"
             alt=""
             className={`grain-img${introGrainLoaded ? ' loaded' : ''}`}
-            onLoad={() => {
-              setIntroGrainLoaded(true)
-              setGrainReady(true)
-              startIntro()
-            }}
+            onLoad={handleIntroGrainLoad}
+            onError={handleIntroGrainLoad}
             style={{
               position: 'absolute',
               inset: 0,
