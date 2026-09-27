@@ -40,6 +40,25 @@
 .siguenos { font-family: 'Domine', serif; font-weight: 600; font-size: clamp(15px, 1.9vh, 19px); letter-spacing: 0.05em; color: #4d4d4d; text-decoration: none; transition: color 0.25s ease; }
 .siguenos:hover { color: #4d7a4f; }
 
+.nav-links { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: clamp(14px, 2vw, 28px); }
+
+.nav-link { font-family: 'Domine', serif; font-weight: 600; font-size: clamp(14px, 1.7vh, 17px); letter-spacing: 0.03em; color: #4d4d4d; text-decoration: none; transition: color 0.25s ease; white-space: nowrap; }
+.nav-link:hover { color: #4d7a4f; }
+
+.nav-ticket { font-family: 'Domine', serif; font-weight: 600; font-size: clamp(13px, 1.6vh, 16px); letter-spacing: 0.03em; color: #ffffff; text-decoration: none; white-space: nowrap; background: #4d7a4f; padding: 8px 18px; border-radius: 999px; transition: background 0.25s ease, transform 0.25s ease; }
+.nav-ticket:hover { background: #3a5c3c; transform: translateY(-1px); }
+
+@media (max-width: 900px) {
+  .postulacion-page nav.nav-fade { flex-wrap: wrap; row-gap: 10px; }
+  .postulacion-page .nav-links { order: 3; width: 100%; justify-content: center; }
+}
+
+@media (max-width: 700px) {
+  .postulacion-page .nav-links { gap: 10px !important; }
+  .postulacion-page .nav-link { font-size: 12px !important; }
+  .postulacion-page .nav-ticket { font-size: 12px !important; padding: 6px 14px !important; }
+}
+
 .introOverlay { position: absolute; inset: 0; z-index: 50; background: transparent; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.7s cubic-bezier(0.6, 0, 0.4, 1), opacity 0.6s ease; }
 .introOverlay.fading { opacity: 0; transform: translateY(-100%); pointer-events: none; }
 .introOverlay.hidden { display: none; }
