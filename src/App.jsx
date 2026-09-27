@@ -1,5 +1,5 @@
-import Postulacion from './pages/Postulacion/Postulacion.jsx'
+import Landing from './pages/Landing/Landing.jsx'
 
 export default function App() {
-  return <Postulacion />
+  return <Landing />
 }

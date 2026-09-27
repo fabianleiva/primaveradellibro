@@ -1,0 +1,102 @@
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px clamp(20px, 3.2vw, 40px);
+  box-sizing: border-box;
+  background: rgba(253, 250, 243, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 14px rgba(77, 77, 77, 0.08);
+}
+
+.site-nav a { text-decoration: none; }
+
+.logo-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+}
+.logo-wrap img { width: 52px; height: 52px; }
+
+.logo-idle { animation: logoSpin 14s linear infinite; transition: transform 0.35s ease; }
+.logo-idle:hover { transform: scale(1.12); }
+@keyframes logoSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.logo-tooltip {
+  position: absolute; top: calc(100% + 10px); left: 0; width: max-content; white-space: nowrap;
+  background: #4d4d4d; color: #fff; font-family: 'Special Elite', 'Roboto Slab', serif; font-size: 13px;
+  padding: 6px 14px; border-radius: 999px; transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none; opacity: 0; transform: translate(0, 6px);
+}
+.logo-wrap:hover .logo-tooltip { opacity: 1; transform: translate(0, 0); }
+
+.intro-cursor { animation: blinkCursor 0.9s step-end infinite; }
+@keyframes blinkCursor { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+.nav-links { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: clamp(14px, 2vw, 26px); }
+
+.nav-link { font-family: 'Domine', serif; font-weight: 600; font-size: clamp(14px, 1.6vw, 16px); letter-spacing: 0.03em; color: #4d4d4d; white-space: nowrap; transition: color 0.25s ease; }
+.nav-link:hover { color: #4d7a4f; }
+
+.nav-ticket { font-family: 'Domine', serif; font-weight: 600; font-size: clamp(13px, 1.5vw, 15px); letter-spacing: 0.03em; color: #ffffff; white-space: nowrap; background: #4d7a4f; padding: 8px 18px; border-radius: 999px; transition: background 0.25s ease, transform 0.25s ease; }
+.nav-ticket:hover { background: #3a5c3c; transform: translateY(-1px); }
+
+.nav-right { display: flex; align-items: center; gap: 4px; }
+
+.siguenos { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; color: #4d4d4d; transition: color 0.25s ease; }
+.siguenos:hover { color: #4d7a4f; }
+
+.hamburger-btn { display: none; }
+
+@media (max-width: 900px) {
+  .hamburger-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; background: none; border: none; cursor: pointer;
+    padding: 0; position: relative; z-index: 60; flex: 0 0 auto;
+  }
+  .hamburger-btn span {
+    display: block; width: 24px; height: 3px; border-radius: 2px; background: #4d4d4d;
+    position: absolute; transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .hamburger-btn span:nth-child(1) { transform: translateY(-7px); }
+  .hamburger-btn span:nth-child(3) { transform: translateY(7px); }
+  .hamburger-btn.open span:nth-child(1) { transform: translateY(0) rotate(45deg); }
+  .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+  .hamburger-btn.open span:nth-child(3) { transform: translateY(0) rotate(-45deg); }
+
+  .nav-links {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    margin: 0 !important;
+    z-index: 55;
+    background: #fdfaf3;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 30px !important;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s ease, opacity 0.3s ease;
+  }
+  .nav-links.mobile-open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .nav-link { font-size: 22px !important; }
+  .nav-ticket { font-size: 18px !important; padding: 12px 30px !important; }
+}
