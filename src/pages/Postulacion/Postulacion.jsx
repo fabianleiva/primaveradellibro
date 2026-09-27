@@ -302,13 +302,6 @@ export default function Postulacion() {
             </span>
           </span>
         </div>
-        <div
-          className="nav-links"
-          style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px, 2.4vw, 32px)' }}
-        >
-          <a href="#galeria" className="nav-link">Galería</a>
-          <a href="#contacto" className="nav-link">Contacto</a>
-        </div>
         <a
           href="https://www.instagram.com/primaveradellibro/?hl=es"
           target="_blank"
