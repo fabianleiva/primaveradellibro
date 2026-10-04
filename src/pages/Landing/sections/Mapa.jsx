@@ -1,7 +1,9 @@
 export default function Mapa() {
   return (
     <section className="mapa-section" id="ubicacion">
-      <h2 className="section-title">Cómo llegar</h2>
+      <h2 className="sr-only">Cómo llegar</h2>
+      <img src="/assets/collage/rotulo-mapocho.webp" alt="Estación Mapocho" className="mapa-rotulo" />
+      <p className="section-subtitle">Santiago de Chile</p>
 
       <div className="mapa-content">
         <iframe

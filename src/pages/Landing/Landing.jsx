@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import Navbar from '../../components/Navbar/Navbar.jsx'
 import Hero from './sections/Hero.jsx'
-import PostulacionSection from './sections/PostulacionSection.jsx'
 import Stats from './sections/Stats.jsx'
+import Programa from './sections/Programa.jsx'
+import Talleres from './sections/Talleres.jsx'
+import Invitados from './sections/Invitados.jsx'
 import FotosPreview from './sections/FotosPreview.jsx'
 import Mapa from './sections/Mapa.jsx'
+import Sponsors from './sections/Sponsors.jsx'
 import Footer from './sections/Footer.jsx'
 import './Landing.css'
 
@@ -70,7 +73,7 @@ export default function Landing() {
         <div className={`introOverlay${grainReady ? ' grain-ready' : ''}${overlayFading ? ' fading' : ''}`}>
           <img
             ref={introGrainImgRef}
-            src="/assets/paper-grain.jpg"
+            src="/assets/fondo-grano.webp"
             alt=""
             className={`grain-img${introGrainLoaded ? ' loaded' : ''}`}
             onLoad={handleIntroGrainLoad}
@@ -86,10 +89,13 @@ export default function Landing() {
 
       <Navbar />
       <Hero />
-      <PostulacionSection />
       <Stats />
+      <Programa />
+      <Talleres />
+      <Invitados />
       <FotosPreview />
       <Mapa />
+      <Sponsors />
       <Footer />
     </div>
   )

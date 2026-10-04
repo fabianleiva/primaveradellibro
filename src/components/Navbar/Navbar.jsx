@@ -1,10 +1,10 @@
 import { useState, useRef } from 'react'
+import { TICKET_URL } from '../../config.js'
 import './Navbar.css'
 
 const TOOLTIP_TEXT = '¡Nos vemos en la feria!'
 
 const LINKS = [
-  { href: '#postulacion', label: 'Postulación' },
   { href: '#programa', label: 'Programa' },
   { href: '#talleres', label: 'Talleres' },
   { href: '#invitados', label: 'Invitados' },
@@ -60,7 +60,7 @@ export default function Navbar() {
             {link.label}
           </a>
         ))}
-        <a href="#comprar-ticket" className="nav-ticket" onClick={closeMenu}>Comprar Ticket</a>
+        <a href={TICKET_URL} target="_blank" rel="noopener" className="nav-ticket" onClick={closeMenu}>Comprar Ticket</a>
       </div>
 
       <div className="nav-right">

@@ -1,4 +1,18 @@
+:root {
+  --amarillo: #e5ba76;
+  --verde: #80b282;
+  --azul: #6a6ea4;
+  --rosa: #c27ba8;
+  --rojo: #c76d6d;
+  --gris: #4d4d4d;
+  --crema: #f9f7ef;
+  --font-text: 'Albert Sans', system-ui, sans-serif;
+  --font-title: 'Domine', Georgia, serif;
+}
+
 body {
   margin: 0;
-  background: #ffffff;
+  background: var(--crema);
+  font-family: var(--font-text);
+  color: var(--gris);
 }
