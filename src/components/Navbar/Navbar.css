@@ -104,3 +104,20 @@
 @media (max-width: 700px) {
   .site-nav .nav-ticket { display: none; }
 }
+
+/* Botón de ticket dentro del menú desplegable (solo celular; arriba ya no hay botón) */
+.site-nav .nav-ticket-menu { display: none; }
+@media (max-width: 700px) {
+  .site-nav .nav-ticket-menu {
+    display: inline-flex; align-items: center; justify-content: center; margin-top: 8px;
+    font-family: var(--font-title); font-weight: 700; font-size: 18px; letter-spacing: 0.02em;
+    color: var(--cta-text); background: var(--cta-bg); padding: 12px 30px; border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(77, 77, 77, 0.3);
+  }
+}
+
+/* Respuesta al toque (en celular no hay hover): el elemento se encoge un poco mientras se presiona */
+.site-nav .nav-ticket-menu, .site-nav .nav-ticket, .site-nav .nav-link { -webkit-tap-highlight-color: transparent; }
+.site-nav .nav-ticket-menu { transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease; }
+.site-nav .nav-ticket-menu:active, .site-nav .nav-ticket:active { transform: scale(0.96); background: var(--cta-hover); }
+.site-nav .nav-link:active { color: var(--nav-accent); }

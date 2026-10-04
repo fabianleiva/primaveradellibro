@@ -69,6 +69,7 @@ export default function Navbar() {
             {link.label}
           </NavLink>
         ))}
+        <a href={TICKET_URL} target="_blank" rel="noopener" className="nav-ticket-menu" onClick={closeMenu}>Conseguir ticket</a>
       </div>
 
       <div className="nav-right">

@@ -367,3 +367,7 @@ section > *:not(.decor) { position: relative; z-index: 1; }
   .hero-section { background: #fefefe; }
   .bienvenida-section { --prev-bg: #fefefe; }
 }
+
+/* Respuesta al toque en los botones de ticket */
+.hero-cta, .ticket-btn { -webkit-tap-highlight-color: transparent; }
+.hero-cta:active, .ticket-btn:active { transform: scale(0.96); background: var(--cta-hover); }
