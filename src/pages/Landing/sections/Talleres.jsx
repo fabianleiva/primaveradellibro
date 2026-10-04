@@ -6,7 +6,7 @@ export default function Talleres() {
   const destacados = TALLERES.filter((t) => t.destacado)
 
   return (
-    <section className="talleres-section" id="talleres">
+    <section className="talleres-section tear" id="talleres" style={{ '--prev-bg': '#fff' }}>
       <img src="/assets/collage/flor-rosa.webp" alt="" aria-hidden="true" className="decor decor-talleres-l" />
       <img src="/assets/collage/mujer-lee.webp" alt="" aria-hidden="true" className="decor decor-talleres-r" />
       <SectionTitle>Talleres de oficios</SectionTitle>

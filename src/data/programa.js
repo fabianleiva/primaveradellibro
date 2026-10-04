@@ -31,8 +31,8 @@ export const PROGRAMA = [
     eventos: [
       { hora: '11:00', titulo: 'Taller de serigrafía', lugar: 'Taller de oficios', tipo: 'Taller' },
       { hora: '12:30', titulo: 'Cuentacuentos en familia', lugar: 'Espacio infantil', tipo: 'Infantil' },
-      { hora: '14:00', titulo: 'Presentación de novedades editoriales', lugar: 'Sala de charlas', tipo: 'Charla' },
-      { hora: '17:00', titulo: 'Cierre y feria de despedida', lugar: 'Nave central', tipo: 'Ceremonia' },
+      { hora: '14:00', titulo: 'Presentación de novedades editoriales', lugar: 'Sala de charlas', tipo: 'Charla', destacado: true },
+      { hora: '17:00', titulo: 'Cierre y feria de despedida', lugar: 'Nave central', tipo: 'Ceremonia', destacado: true },
     ],
   },
 ]

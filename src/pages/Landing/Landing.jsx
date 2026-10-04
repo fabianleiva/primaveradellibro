@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Hero from './sections/Hero.jsx'
-import Stats from './sections/Stats.jsx'
+import Bienvenida from './sections/Bienvenida.jsx'
+import TicketBand from './sections/TicketBand.jsx'
+import Petals from './sections/Petals.jsx'
 import Programa from './sections/Programa.jsx'
 import Talleres from './sections/Talleres.jsx'
 import Invitados from './sections/Invitados.jsx'
@@ -68,6 +70,7 @@ export default function Landing() {
 
   return (
     <div className="landing-home">
+      <Petals />
       {!overlayHidden && (
         <div className={`introOverlay${grainReady ? ' grain-ready' : ''}${overlayFading ? ' fading' : ''}`}>
           <img
@@ -87,11 +90,12 @@ export default function Landing() {
       )}
 
       <Hero />
-      <Stats />
+      <Bienvenida />
       <Programa />
       <Talleres />
       <Invitados />
       <FotosPreview />
+      <TicketBand />
       <Mapa />
       <Sponsors />
     </div>

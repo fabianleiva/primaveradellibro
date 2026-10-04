@@ -1,6 +1,6 @@
 export default function Mapa() {
   return (
-    <section className="mapa-section" id="ubicacion">
+    <section className="mapa-section tear" id="ubicacion" style={{ '--prev-bg': 'var(--verde)' }}>
       <h2 className="sr-only">Cómo llegar</h2>
       <img src="/assets/collage/rotulo-mapocho.webp" alt="Estación Mapocho" className="mapa-rotulo" />
       <p className="section-subtitle">Santiago de Chile</p>

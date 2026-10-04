@@ -34,7 +34,7 @@ const GROUPS = [
 
 export default function Sponsors() {
   return (
-    <section className="sponsors-section" id="auspiciadores">
+    <section className="sponsors-section tear" id="auspiciadores" style={{ '--prev-bg': '#fff' }}>
       <SectionTitle>Quienes hacen posible la feria</SectionTitle>
       <div className="sponsors-groups">
         {GROUPS.map((g) => (

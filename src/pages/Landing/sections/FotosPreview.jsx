@@ -4,7 +4,7 @@ const PLACEHOLDER_COUNT = 6
 
 export default function FotosPreview() {
   return (
-    <section className="fotos-preview-section" id="galeria">
+    <section className="fotos-preview-section tear" id="galeria" style={{ '--prev-bg': '#fff' }}>
       <img src="/assets/collage/ninos-carta.webp" alt="" aria-hidden="true" className="decor decor-fotos-l" />
       <img src="/assets/collage/flor-azul.webp" alt="" aria-hidden="true" className="decor decor-fotos-r" />
       <SectionTitle>Momentos de otras ediciones</SectionTitle>

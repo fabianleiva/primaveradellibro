@@ -6,7 +6,7 @@ export default function Invitados() {
   const destacados = INVITADOS.filter((i) => i.destacado)
 
   return (
-    <section className="invitados-section" id="invitados">
+    <section className="invitados-section tear" id="invitados" style={{ '--prev-bg': 'var(--crema)' }}>
       <img src="/assets/collage/pajaritos.webp" alt="" aria-hidden="true" className="decor decor-invitados-l" />
       <img src="/assets/collage/encuentro.webp" alt="" aria-hidden="true" className="decor decor-invitados-r" />
       <SectionTitle>Invitados</SectionTitle>

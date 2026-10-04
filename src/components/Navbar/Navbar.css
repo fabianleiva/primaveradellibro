@@ -1,16 +1,17 @@
 .site-nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 12px;
+  left: clamp(12px, 2vw, 28px);
+  right: clamp(12px, 2vw, 28px);
   z-index: 100;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 8px clamp(20px, 3.2vw, 40px);
+  padding: 4px 20px 4px 10px;
   box-sizing: border-box;
   background: var(--nav-bg);
-  box-shadow: 0 2px 14px rgba(77, 77, 77, 0.18);
+  border-radius: 999px;
+  box-shadow: 0 8px 26px rgba(77, 77, 77, 0.22);
 }
 
 .site-nav a { text-decoration: none; }
@@ -20,10 +21,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
 }
-.logo-wrap img { width: 52px; height: 52px; }
+.logo-wrap img { width: 46px; height: 46px; }
 
 .logo-idle { animation: logoSpin 14s linear infinite; transition: transform 0.35s ease; }
 .logo-idle:hover { transform: scale(1.12); }
