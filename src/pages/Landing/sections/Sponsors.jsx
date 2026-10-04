@@ -1,3 +1,4 @@
+import SectionTitle from '../../../components/SectionTitle.jsx'
 const GROUPS = [
   { titulo: 'Organiza', logos: [['Logo_EditorialesdeChile', 'Editoriales de Chile']] },
   { titulo: 'Colabora', logos: [['Logo_CajaLosAndes', 'Caja Los Andes']] },
@@ -34,7 +35,7 @@ const GROUPS = [
 export default function Sponsors() {
   return (
     <section className="sponsors-section" id="auspiciadores">
-      <h2 className="section-title">Quienes hacen posible la feria</h2>
+      <SectionTitle>Quienes hacen posible la feria</SectionTitle>
       <div className="sponsors-groups">
         {GROUPS.map((g) => (
           <div key={g.titulo} className="sponsor-group">

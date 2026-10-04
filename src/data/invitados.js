@@ -1,9 +1,15 @@
 // Contenido de ejemplo: reemplazar con los invitados oficiales.
 export const INVITADOS = [
-  { nombre: 'Nombre Apellido', rol: 'Autora · Narrativa', pais: 'Chile' },
-  { nombre: 'Nombre Apellido', rol: 'Poeta', pais: 'Argentina' },
-  { nombre: 'Nombre Apellido', rol: 'Ilustrador', pais: 'Chile' },
-  { nombre: 'Nombre Apellido', rol: 'Editora independiente', pais: 'México' },
-  { nombre: 'Nombre Apellido', rol: 'Autor · Ensayo', pais: 'Chile' },
-  { nombre: 'Nombre Apellido', rol: 'Autora · Literatura infantil', pais: 'Colombia' },
+  { id: 'i1', nombre: 'Nombre Apellido', tipo: 'Autores/as', rol: 'Autora · Narrativa', pais: 'Chile', bio: 'Breve presentación de la persona invitada: libros publicados, premios y líneas de trabajo.', actividad: 'Vie 9 · 12:30 · Sala de charlas', destacado: true },
+  { id: 'i2', nombre: 'Nombre Apellido', tipo: 'Poetas', rol: 'Poeta', pais: 'Argentina', bio: 'Breve presentación de la persona invitada: libros publicados, premios y líneas de trabajo.', actividad: 'Sáb 10 · 13:00 · Escenario principal', destacado: true },
+  { id: 'i3', nombre: 'Nombre Apellido', tipo: 'Ilustradores/as', rol: 'Ilustrador', pais: 'Chile', bio: 'Breve presentación de la persona invitada: libros publicados, premios y líneas de trabajo.', actividad: 'Sáb 10 · 16:00 · Sala de charlas', destacado: true },
+  { id: 'i4', nombre: 'Nombre Apellido', tipo: 'Editores/as', rol: 'Editora independiente', pais: 'México', bio: 'Breve presentación de la persona invitada: libros publicados, premios y líneas de trabajo.', actividad: 'Dom 11 · 14:00 · Sala de charlas', destacado: true },
+  { id: 'i5', nombre: 'Nombre Apellido', tipo: 'Autores/as', rol: 'Autor · Ensayo', pais: 'Chile', bio: 'Breve presentación de la persona invitada: libros publicados, premios y líneas de trabajo.', actividad: 'Vie 9 · 18:00 · Sala de charlas', destacado: true },
+  { id: 'i6', nombre: 'Nombre Apellido', tipo: 'Infancia', rol: 'Autora · Literatura infantil', pais: 'Colombia', bio: 'Breve presentación de la persona invitada: libros publicados, premios y líneas de trabajo.', actividad: 'Dom 11 · 12:30 · Espacio infantil', destacado: true },
+  { id: 'i7', nombre: 'Nombre Apellido', tipo: 'Poetas', rol: 'Poeta', pais: 'Perú', bio: 'Breve presentación de la persona invitada: libros publicados, premios y líneas de trabajo.', actividad: 'Sáb 10 · 13:00 · Escenario principal' },
+  { id: 'i8', nombre: 'Nombre Apellido', tipo: 'Ilustradores/as', rol: 'Ilustradora', pais: 'Uruguay', bio: 'Breve presentación de la persona invitada: libros publicados, premios y líneas de trabajo.', actividad: 'Sáb 10 · 16:00 · Sala de charlas' },
+  { id: 'i9', nombre: 'Nombre Apellido', tipo: 'Editores/as', rol: 'Editor independiente', pais: 'Chile', bio: 'Breve presentación de la persona invitada: libros publicados, premios y líneas de trabajo.', actividad: 'Dom 11 · 14:00 · Sala de charlas' },
+  { id: 'i10', nombre: 'Nombre Apellido', tipo: 'Autores/as', rol: 'Autora · Cuento', pais: 'España', bio: 'Breve presentación de la persona invitada: libros publicados, premios y líneas de trabajo.', actividad: 'Vie 9 · 12:30 · Sala de charlas' },
+  { id: 'i11', nombre: 'Nombre Apellido', tipo: 'Infancia', rol: 'Cuentacuentos', pais: 'Chile', bio: 'Breve presentación de la persona invitada: libros publicados, premios y líneas de trabajo.', actividad: 'Vie 9 · 15:00 · Espacio infantil' },
+  { id: 'i12', nombre: 'Nombre Apellido', tipo: 'Autores/as', rol: 'Autor · Novela gráfica', pais: 'Brasil', bio: 'Breve presentación de la persona invitada: libros publicados, premios y líneas de trabajo.', actividad: 'Dom 11 · 17:00 · Nave central' },
 ]

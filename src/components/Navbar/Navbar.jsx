@@ -1,14 +1,15 @@
 import { useState, useRef } from 'react'
+import { Link, NavLink } from 'react-router-dom'
 import { TICKET_URL } from '../../config.js'
 import './Navbar.css'
 
 const TOOLTIP_TEXT = '¡Nos vemos en la feria!'
 
 const LINKS = [
-  { href: '#programa', label: 'Programa' },
-  { href: '#talleres', label: 'Talleres' },
-  { href: '#invitados', label: 'Invitados' },
-  { href: '#galeria', label: 'Galería' },
+  { to: '/programa', label: 'Programa' },
+  { to: '/talleres', label: 'Talleres' },
+  { to: '/invitados', label: 'Invitados' },
+  { to: '/galeria', label: 'Galería' },
 ]
 
 export default function Navbar() {
@@ -42,8 +43,11 @@ export default function Navbar() {
 
   return (
     <nav className="site-nav">
-      <div
+      <Link
+        to="/"
         className="logo-wrap"
+        aria-label="Ir al inicio"
+        onClick={closeMenu}
         onMouseEnter={startTooltipTyping}
         onMouseLeave={stopTooltipTyping}
       >
@@ -52,31 +56,23 @@ export default function Navbar() {
           <span>{tooltipText}</span>
           <span className="intro-cursor" style={{ display: tooltipVisible ? 'inline' : 'none' }}>|</span>
         </span>
-      </div>
+      </Link>
 
       <div className={`nav-links${menuOpen ? ' mobile-open' : ''}`}>
         {LINKS.map((link) => (
-          <a key={link.href} href={link.href} className="nav-link" onClick={closeMenu}>
+          <NavLink
+            key={link.to}
+            to={link.to}
+            className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+            onClick={closeMenu}
+          >
             {link.label}
-          </a>
+          </NavLink>
         ))}
-        <a href={TICKET_URL} target="_blank" rel="noopener" className="nav-ticket" onClick={closeMenu}>Comprar Ticket</a>
       </div>
 
       <div className="nav-right">
-        <a
-          href="https://www.instagram.com/primaveradellibro/?hl=es"
-          target="_blank"
-          rel="noopener"
-          className="siguenos"
-          aria-label="Instagram Primavera del Libro"
-        >
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-            <rect x="2" y="2" width="20" height="20" rx="5.5" />
-            <circle cx="12" cy="12" r="4.2" />
-            <circle cx="17.4" cy="6.6" r="1.05" fill="currentColor" stroke="none" />
-          </svg>
-        </a>
+        <a href={TICKET_URL} target="_blank" rel="noopener" className="nav-ticket">Conseguir ticket</a>
 
         <button
           type="button"

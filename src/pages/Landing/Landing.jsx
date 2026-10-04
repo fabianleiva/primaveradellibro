@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import Navbar from '../../components/Navbar/Navbar.jsx'
 import Hero from './sections/Hero.jsx'
 import Stats from './sections/Stats.jsx'
 import Programa from './sections/Programa.jsx'
@@ -8,8 +7,6 @@ import Invitados from './sections/Invitados.jsx'
 import FotosPreview from './sections/FotosPreview.jsx'
 import Mapa from './sections/Mapa.jsx'
 import Sponsors from './sections/Sponsors.jsx'
-import Footer from './sections/Footer.jsx'
-import './Landing.css'
 
 const INTRO_TEXT = '¡Ya llegó la primavera!'
 
@@ -17,7 +14,7 @@ export default function Landing() {
   const [grainReady, setGrainReady] = useState(false)
   const [typedText, setTypedText] = useState('')
   const [overlayFading, setOverlayFading] = useState(false)
-  const [overlayHidden, setOverlayHidden] = useState(false)
+  const [overlayHidden, setOverlayHidden] = useState(() => sessionStorage.getItem('pdl-intro-seen') === '1')
   const [introGrainLoaded, setIntroGrainLoaded] = useState(false)
 
   const introStartedRef = useRef(false)
@@ -31,6 +28,7 @@ export default function Landing() {
   }
 
   useEffect(() => {
+    if (overlayHidden) return
     if (introGrainImgRef.current?.complete) {
       handleIntroGrainLoad()
     }
@@ -62,13 +60,14 @@ export default function Landing() {
     timeoutsRef.current.push(
       setTimeout(() => {
         setOverlayFading(true)
+        sessionStorage.setItem('pdl-intro-seen', '1')
         timeoutsRef.current.push(setTimeout(() => setOverlayHidden(true), 700))
       }, totalTypingTime + 800),
     )
   }
 
   return (
-    <div className="landing-page">
+    <div className="landing-home">
       {!overlayHidden && (
         <div className={`introOverlay${grainReady ? ' grain-ready' : ''}${overlayFading ? ' fading' : ''}`}>
           <img
@@ -87,7 +86,6 @@ export default function Landing() {
         </div>
       )}
 
-      <Navbar />
       <Hero />
       <Stats />
       <Programa />
@@ -96,7 +94,6 @@ export default function Landing() {
       <FotosPreview />
       <Mapa />
       <Sponsors />
-      <Footer />
     </div>
   )
 }

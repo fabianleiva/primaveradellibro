@@ -1,7 +1,9 @@
 // Contenido de ejemplo: reemplazar con los talleres oficiales.
 export const TALLERES = [
-  { titulo: 'Encuadernación artesanal', descripcion: 'Aprende a coser y armar tu propio cuaderno a mano.', horario: 'Sáb 10 · 11:00', cupos: 'Cupos limitados' },
-  { titulo: 'Serigrafía para principiantes', descripcion: 'Estampa tu propio diseño sobre papel y tela.', horario: 'Dom 11 · 11:00', cupos: 'Cupos limitados' },
-  { titulo: 'Ilustración con collage', descripcion: 'Crea una ilustración a partir de recortes y papeles.', horario: 'Sáb 10 · 15:00', cupos: 'Cupos limitados' },
-  { titulo: 'Taller de escritura creativa', descripcion: 'Ejercicios breves para soltar la pluma y jugar con las palabras.', horario: 'Vie 9 · 16:00', cupos: 'Cupos limitados' },
+  { id: 't1', titulo: 'Encuadernación artesanal', descripcion: 'Aprende a coser y armar tu propio cuaderno a mano, con papeles y tapas que tú eliges.', dia: 'Sábado 10', corto: 'Sáb 10', hora: '11:00', duracion: '90 min', lugar: 'Taller de oficios', publico: 'Desde 12 años', cupos: '20 cupos', destacado: true },
+  { id: 't2', titulo: 'Serigrafía para principiantes', descripcion: 'Estampa tu propio diseño sobre papel y tela con la técnica de la serigrafía.', dia: 'Domingo 11', corto: 'Dom 11', hora: '11:00', duracion: '120 min', lugar: 'Taller de oficios', publico: 'Desde 14 años', cupos: '15 cupos', destacado: true },
+  { id: 't3', titulo: 'Ilustración con collage', descripcion: 'Crea una ilustración a partir de recortes, papeles y fragmentos de libros antiguos.', dia: 'Sábado 10', corto: 'Sáb 10', hora: '15:00', duracion: '90 min', lugar: 'Taller de oficios', publico: 'Todo público', cupos: '25 cupos', destacado: true },
+  { id: 't4', titulo: 'Taller de escritura creativa', descripcion: 'Ejercicios breves para soltar la pluma y jugar con las palabras.', dia: 'Viernes 9', corto: 'Vie 9', hora: '16:00', duracion: '60 min', lugar: 'Sala de charlas', publico: 'Desde 15 años', cupos: '30 cupos', destacado: true },
+  { id: 't5', titulo: 'Linograbado en familia', descripcion: 'Talla y estampa tu propia imagen en linóleo. Pensado para ir con niños y niñas.', dia: 'Domingo 11', corto: 'Dom 11', hora: '15:00', duracion: '90 min', lugar: 'Espacio infantil', publico: 'Familias', cupos: '20 cupos' },
+  { id: 't6', titulo: 'Papel hecho a mano', descripcion: 'Recicla papel y dale una segunda vida: conoce el proceso de fabricarlo desde cero.', dia: 'Viernes 9', corto: 'Vie 9', hora: '12:00', duracion: '60 min', lugar: 'Taller de oficios', publico: 'Todo público', cupos: '20 cupos' },
 ]

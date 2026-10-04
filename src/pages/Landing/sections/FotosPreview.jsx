@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+import SectionTitle from '../../../components/SectionTitle.jsx'
 const PLACEHOLDER_COUNT = 6
 
 export default function FotosPreview() {
@@ -5,7 +7,7 @@ export default function FotosPreview() {
     <section className="fotos-preview-section" id="galeria">
       <img src="/assets/collage/ninos-carta.webp" alt="" aria-hidden="true" className="decor decor-fotos-l" />
       <img src="/assets/collage/flor-azul.webp" alt="" aria-hidden="true" className="decor decor-fotos-r" />
-      <h2 className="section-title">Momentos de otras ediciones</h2>
+      <SectionTitle>Momentos de otras ediciones</SectionTitle>
       <p className="section-subtitle">Una probadita de lo que hemos vivido juntos estos 15 años.</p>
 
       <div className="fotos-preview-grid">
@@ -17,7 +19,7 @@ export default function FotosPreview() {
         ))}
       </div>
 
-      <a href="#galeria" className="ver-galeria-btn">Ver galería completa →</a>
+      <Link to="/galeria" className="ver-galeria-btn">Ver galería completa →</Link>
     </section>
   )
 }

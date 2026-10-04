@@ -6,6 +6,12 @@
   --rojo: #c76d6d;
   --gris: #4d4d4d;
   --crema: #f9f7ef;
+  --nav-bg: var(--amarillo);
+  --nav-text: var(--gris);
+  --nav-accent: var(--rojo);
+  --cta-bg: var(--gris);
+  --cta-text: var(--crema);
+  --cta-hover: #333333;
   --font-text: 'Albert Sans', system-ui, sans-serif;
   --font-title: 'Domine', Georgia, serif;
 }
