@@ -84,10 +84,18 @@ section > *:not(.decor) { position: relative; z-index: 1; }
 @keyframes blinkCursor { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
 
 /* ---------- Hero ---------- */
-.hero-section { padding-top: calc(64px + clamp(14px, 2.4vw, 34px)); background: linear-gradient(to bottom, #fefefe 0, #fefefe 60%, var(--crema) 60%); }
+.hero-section { background: var(--crema); }
 .hero-art { position: relative; width: 100%; }
 .hero-img { display: block; width: 100%; height: auto; }
 .hero-cta { display: none; }
+
+/* Escritorio: el arte ya trae aire arriba para el navbar; abajo se rasga como papel */
+@media (min-width: 701px) {
+  .hero-img {
+    -webkit-mask: url('/assets/torn-edge.svg') left bottom / 1600px 28px repeat-x, linear-gradient(#000, #000) left top / 100% calc(100% - 27px) no-repeat;
+    mask: url('/assets/torn-edge.svg') left bottom / 1600px 28px repeat-x, linear-gradient(#000, #000) left top / 100% calc(100% - 27px) no-repeat;
+  }
+}
 
 @media (max-width: 700px) {
   .hero-cta {
@@ -365,7 +373,7 @@ section > *:not(.decor) { position: relative; z-index: 1; }
 /* En celular el hero termina en blanco: la bienvenida se rasga desde ese blanco */
 .bienvenida-section { --prev-bg: var(--crema); }
 @media (max-width: 700px) {
-  .hero-section { background: #fefefe; }
+  .hero-section { padding-top: calc(64px + clamp(14px, 2.4vw, 34px)); background: #fefefe; }
   .bienvenida-section { --prev-bg: #fefefe; }
 }
 
