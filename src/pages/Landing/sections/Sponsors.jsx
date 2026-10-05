@@ -1,7 +1,7 @@
 import SectionTitle from '../../../components/SectionTitle.jsx'
 const GROUPS = [
-  { titulo: 'Organiza', logos: [['Logo_EditorialesdeChile', 'Editoriales de Chile']] },
-  { titulo: 'Colabora', logos: [['Logo_CajaLosAndes', 'Caja Los Andes']] },
+  { titulo: 'Organiza', nivel: 1, logos: [['Logo_EditorialesdeChile', 'Editoriales de Chile']] },
+  { titulo: 'Colabora', nivel: 2, logos: [['Logo_CajaLosAndes', 'Caja Los Andes']] },
   {
     titulo: 'Apoyan',
     logos: [
@@ -12,7 +12,7 @@ const GROUPS = [
       ['Logo-RS-vertical-2Recurso-2', 'Reciclar es simple'],
     ],
   },
-  { titulo: 'Patrocina', logos: [['Logo_EstacionMapocho', 'Estación Mapocho']] },
+  { titulo: 'Patrocina', nivel: 2, logos: [['Logo_EstacionMapocho', 'Estación Mapocho']] },
   {
     titulo: 'Medios asociados',
     logos: [
@@ -38,7 +38,7 @@ export default function Sponsors() {
       <SectionTitle>Quienes hacen posible la feria</SectionTitle>
       <div className="sponsors-groups">
         {GROUPS.map((g) => (
-          <div key={g.titulo} className="sponsor-group">
+          <div key={g.titulo} className={`sponsor-group${g.nivel ? ` nivel-${g.nivel}` : ''}`}>
             <span className="sponsor-group-title">{g.titulo}</span>
             <div className="sponsor-logos">
               {g.logos.map(([file, alt]) => (

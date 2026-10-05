@@ -1,8 +1,8 @@
 import CountUp from '../../../components/reactbits/CountUp.jsx'
 
 const STATS = [
-  { number: 181, label: 'Stands', color: 'var(--rojo)' },
-  { number: 214, label: 'Editoriales', color: 'var(--azul)' },
+  { number: 214, label: 'Editoriales', color: 'var(--rojo)' },
+  { number: 181, label: 'Stands', color: 'var(--azul)' },
   { number: 15, label: 'Años de historia', color: 'var(--verde)' },
   { number: 3, label: 'Días de feria', color: 'var(--rosa)' },
 ]

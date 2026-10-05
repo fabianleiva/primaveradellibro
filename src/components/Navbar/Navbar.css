@@ -26,8 +26,8 @@
 }
 .logo-wrap img { width: 46px; height: 46px; }
 
-.logo-idle { animation: logoSpin 14s linear infinite; transition: transform 0.35s ease; }
-.logo-idle:hover { transform: scale(1.12); }
+.logo-idle { animation: logoSpin 14s linear infinite; transition: scale 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@media (hover: hover) { .logo-wrap:hover .logo-idle { scale: 1.15; } }
 @keyframes logoSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 .logo-tooltip {
