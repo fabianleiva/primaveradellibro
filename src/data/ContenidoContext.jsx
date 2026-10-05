@@ -35,7 +35,9 @@ async function leer(ruta, conOrden) {
   const timer = setTimeout(() => ctrl.abort(), 8000)
   try {
     const orden = conOrden ? '&orderby=menu_order&order=asc' : ''
-    const url = `${CMS_URL}/wp-json/wp/v2/${ruta}?per_page=100&acf_format=standard${orden}&_fields=id,title,menu_order,acf`
+    // El servidor del CMS permite cachear 48 h: la versión cambia cada 5 min para que los cambios se vean pronto
+    const version = Math.floor(Date.now() / 300000)
+    const url = `${CMS_URL}/wp-json/wp/v2/${ruta}?per_page=100&acf_format=standard${orden}&_fields=id,title,menu_order,acf&v=${version}`
     const res = await fetch(url, { signal: ctrl.signal })
     if (!res.ok) return []
     const data = await res.json()

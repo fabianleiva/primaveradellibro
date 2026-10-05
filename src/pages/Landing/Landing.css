@@ -390,3 +390,13 @@ section > *:not(.decor) { position: relative; z-index: 1; }
 /* Respuesta al toque en los botones de ticket */
 .hero-cta, .ticket-btn { -webkit-tap-highlight-color: transparent; }
 .hero-cta:active, .ticket-btn:active { transform: scale(0.96); background: var(--cta-hover); }
+
+/* Celular: la portada muestra menos tarjetas por sección; la lista completa está en cada página */
+@media (max-width: 700px) {
+  .invitados-section .invitados-grid { grid-template-columns: repeat(2, 1fr); gap: 26px 14px; }
+  .invitados-section .invitado-card:nth-child(n+5) { display: none; }
+  .invitados-section .invitado-avatar { width: 84px; height: 84px; font-size: 32px; margin-bottom: 6px; }
+  .programa-col-lista .programa-card:nth-child(n+3) { display: none; }
+  .talleres-section .taller-card:nth-child(n+3) { display: none; }
+  .fotos-preview-grid .foto-frame:nth-child(n+5) { display: none; }
+}
