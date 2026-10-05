@@ -9,14 +9,18 @@ import { ANIOS as ANIOS_EJEMPLO, FOTOS as FOTOS_EJEMPLO } from './galeria.js'
 const CMS_URL = import.meta.env.VITE_CMS_URL || 'https://cms.primaveradellibro.cl'
 
 const DIAS = {
+  jueves: { label: 'Jueves 8', corto: 'Jue 8' },
   viernes: { label: 'Viernes 9', corto: 'Vie 9' },
   sabado: { label: 'Sábado 10', corto: 'Sáb 10' },
   domingo: { label: 'Domingo 11', corto: 'Dom 11' },
 }
-const ORDEN_DIAS = Object.keys(DIAS)
+const ORDEN_DIAS = ['viernes', 'sabado', 'domingo']
+const ORDEN_ENCUENTROS = ['jueves', 'viernes']
+const sinEventos = (orden) => orden.map((id) => ({ id, ...DIAS[id], eventos: [] }))
 
 const EJEMPLO = {
   programa: PROGRAMA_EJEMPLO,
+  encuentros: sinEventos(ORDEN_ENCUENTROS),
   talleres: TALLERES_EJEMPLO,
   invitados: INVITADOS_EJEMPLO,
   galeria: { anios: ANIOS_EJEMPLO, fotos: FOTOS_EJEMPLO },
@@ -51,7 +55,7 @@ const porSala = (a, b) => {
 }
 const porHora = (a, b) => (a.hora || '').localeCompare(b.hora || '', 'es', { numeric: true })
 
-function armarPrograma(items) {
+function armarPrograma(items, orden = ORDEN_DIAS) {
   const eventos = items.map((p) => ({
     hora: p.acf.hora || '',
     titulo: texto(p.title.rendered),
@@ -59,10 +63,11 @@ function armarPrograma(items) {
     tipo: p.acf.tipo || 'Otro',
     participantes: p.acf.participantes || '',
     organiza: p.acf.organiza || '',
+    descripcion: p.acf.descripcion || '',
     destacado: !!p.acf.destacado,
     dia: p.acf.dia,
   }))
-  return ORDEN_DIAS.map((id) => ({
+  return orden.map((id) => ({
     id,
     ...DIAS[id],
     eventos: eventos.filter((e) => e.dia === id).sort((a, b) => porHora(a, b) || porSala(a, b)),
@@ -72,14 +77,15 @@ function armarPrograma(items) {
 function armarTalleres(items) {
   return items
     .map((p) => {
-      const dia = DIAS[p.acf.dia] || DIAS.viernes
+      const dia = DIAS[p.acf.dia] || null
       return {
         id: p.id,
         titulo: texto(p.title.rendered),
         descripcion: p.acf.descripcion || '',
-        dia: dia.label,
-        corto: dia.corto,
-        diaOrden: ORDEN_DIAS.indexOf(p.acf.dia),
+        dia: dia ? dia.label : '',
+        corto: dia ? dia.corto : '',
+        diaOrden: dia ? ORDEN_DIAS.indexOf(p.acf.dia) : -1,
+        aCargo: p.acf.a_cargo || '',
         hora: p.acf.hora || '',
         duracion: p.acf.duracion || '',
         lugar: p.acf.lugar || '',
@@ -125,7 +131,7 @@ function armarGaleria(items) {
 const Contexto = createContext(null)
 
 export function ContenidoProvider({ children }) {
-  const [contenido, setContenido] = useState({ ...EJEMPLO, ejemplo: { programa: true, talleres: true, invitados: true, galeria: true } })
+  const [contenido, setContenido] = useState({ ...EJEMPLO, ejemplo: { programa: true, encuentros: true, talleres: true, invitados: true, galeria: true } })
 
   useEffect(() => {
     let vivo = true
@@ -138,6 +144,7 @@ export function ContenidoProvider({ children }) {
       })
 
     cargar('programa', 'programa', armarPrograma, (d) => d.every((x) => x.eventos.length === 0))
+    cargar('encuentros', 'encuentros', (items) => armarPrograma(items, ORDEN_ENCUENTROS), (d) => d.every((x) => x.eventos.length === 0))
     cargar('talleres', 'talleres', armarTalleres, (d) => d.length === 0, true)
     cargar('invitados', 'invitados', armarInvitados, (d) => d.length === 0, true)
     cargar('galeria', 'ediciones', armarGaleria, (d) => d.fotos.length === 0)

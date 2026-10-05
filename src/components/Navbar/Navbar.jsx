@@ -9,6 +9,7 @@ const LINKS = [
   { to: '/programa', label: 'Programa' },
   { to: '/talleres', label: 'Talleres' },
   { to: '/invitados', label: 'Invitados' },
+  { to: '/encuentros-profesionales', label: 'Profesionales' },
   { to: '/galeria', label: 'Galería' },
 ]
 

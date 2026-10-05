@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import PageHeader from '../../components/PageHeader.jsx'
+import DescripcionCorta from '../../components/DescripcionCorta.jsx'
 import { useContenido } from '../../data/ContenidoContext.jsx'
 
 const DIAS = ['Todos', 'Viernes 9', 'Sábado 10', 'Domingo 11']
@@ -7,40 +9,47 @@ const DIAS = ['Todos', 'Viernes 9', 'Sábado 10', 'Domingo 11']
 export default function TalleresPage() {
   const { talleres: TALLERES, ejemplo } = useContenido()
   const [dia, setDia] = useState('Todos')
-  const talleres = TALLERES.filter((t) => dia === 'Todos' || t.dia === dia)
+  const talleres = TALLERES.filter((t) => dia === 'Todos' || !t.dia || t.dia === dia)
 
   return (
     <section className="page-section talleres-page">
       <PageHeader title="Talleres de oficios" subtitle="Aprende haciendo: talleres abiertos, junto a Caja Los Andes." />
 
-      <div className="tipo-filtros" aria-label="Filtrar por día">
-        {DIAS.map((d) => (
-          <button key={d} type="button" className={`tipo-chip${d === dia ? ' active' : ''}`} aria-pressed={d === dia} onClick={() => setDia(d)}>
-            {d}
-          </button>
-        ))}
-      </div>
+      <p className="aviso-cruzado">
+        Las charlas, lanzamientos y shows están en el <Link to="/programa">programa completo →</Link>
+      </p>
+
+      {TALLERES.some((t) => t.dia) && (
+        <div className="tipo-filtros" aria-label="Filtrar por día">
+          {DIAS.map((d) => (
+            <button key={d} type="button" className={`tipo-chip${d === dia ? ' active' : ''}`} aria-pressed={d === dia} onClick={() => setDia(d)}>
+              {d}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="talleres-grid talleres-grid-page">
         {talleres.length === 0 && <p className="programa-vacio">No hay talleres este día.</p>}
         {talleres.map((t) => (
           <article key={t.id} className="taller-card">
-            <span className="taller-horario">{t.corto} · {t.hora}</span>
+            <span className="taller-horario">{[t.corto, t.hora].filter(Boolean).join(' · ')}</span>
             <h3 className="taller-titulo">{t.titulo}</h3>
-            <p className="taller-desc">{t.descripcion}</p>
+            <DescripcionCorta texto={t.descripcion} />
             <dl className="taller-datos">
-              <div><dt>Lugar</dt><dd>{t.lugar}</dd></div>
-              <div><dt>Duración</dt><dd>{t.duracion}</dd></div>
-              <div><dt>Público</dt><dd>{t.publico}</dd></div>
+              {t.aCargo && <div><dt>A cargo</dt><dd>{t.aCargo}</dd></div>}
+              {t.lugar && <div><dt>Lugar</dt><dd>{t.lugar}</dd></div>}
+              {t.duracion && <div><dt>Duración</dt><dd>{t.duracion}</dd></div>}
+              {t.publico && <div><dt>Público</dt><dd>{t.publico}</dd></div>}
             </dl>
-            <span className="taller-cupos">{t.cupos}</span>
+            {t.cupos && <span className="taller-cupos">{t.cupos}</span>}
           </article>
         ))}
       </div>
 
       <div className="info-box">
         <strong>¿Cómo participar?</strong>
-        <p>Los talleres son gratuitos y los cupos se asignan por orden de llegada. Toda la información sobre inscripción se confirmará pronto.</p>
+        <p>Los talleres se realizan varias veces al día durante la feria. Los horarios exactos se confirmarán pronto.</p>
       </div>
 
       {ejemplo.talleres && <p className="sample-note">Contenido de ejemplo — se reemplazará con los talleres oficiales.</p>}

@@ -16,6 +16,7 @@ export default function Footer() {
           <span className="footer-col-title">Explora</span>
           <Link to="/programa">Programa</Link>
           <Link to="/talleres">Talleres</Link>
+          <Link to="/encuentros-profesionales">Encuentros profesionales</Link>
           <Link to="/invitados">Invitados</Link>
           <Link to="/galeria">Galería</Link>
           <a href={TICKET_URL} target="_blank" rel="noopener">Conseguir ticket</a>

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import SectionTitle from '../../../components/SectionTitle.jsx'
+import DescripcionCorta from '../../../components/DescripcionCorta.jsx'
 import { useContenido } from '../../../data/ContenidoContext.jsx'
 
 export default function Talleres() {
@@ -16,10 +17,10 @@ export default function Talleres() {
       <div className="talleres-grid">
         {destacados.map((t) => (
           <article key={t.id} className="taller-card">
-            <span className="taller-horario">{t.corto} · {t.hora}</span>
+            <span className="taller-horario">{[t.corto, t.hora].filter(Boolean).join(' · ')}</span>
             <h3 className="taller-titulo">{t.titulo}</h3>
-            <p className="taller-desc">{t.descripcion}</p>
-            <span className="taller-cupos">{t.cupos}</span>
+            <DescripcionCorta texto={t.descripcion} />
+            {(t.aCargo || t.cupos) && <span className="taller-cupos">{t.aCargo || t.cupos}</span>}
           </article>
         ))}
       </div>

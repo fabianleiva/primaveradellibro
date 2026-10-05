@@ -2,12 +2,13 @@
 /**
  * Plugin Name: Primavera del Libro - CMS
  * Description: Tipos de contenido (Programa, Talleres, Invitados, Galería) y sus campos ACF, expuestos en la API REST para la web headless.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Primavera del Libro
  * Requires PHP: 7.0
  *
  * Endpoints (lectura pública):
  *   /wp-json/wp/v2/programa      Eventos del programa
+ *   /wp-json/wp/v2/encuentros    Encuentros profesionales (jueves y viernes)
  *   /wp-json/wp/v2/talleres      Talleres
  *   /wp-json/wp/v2/invitados     Invitados
  *   /wp-json/wp/v2/ediciones     Galería: una entrada por año, con su campo "fotos"
@@ -55,6 +56,7 @@ function pdl_cms_register_cpt($slug, $rest_base, $singular, $plural, $icon, $pos
 function pdl_cms_register_types()
 {
     pdl_cms_register_cpt('pdl_evento', 'programa', 'Evento del programa', 'Programa', 'dashicons-calendar-alt', 21, array('title'));
+    pdl_cms_register_cpt('pdl_encuentro', 'encuentros', 'Encuentro profesional', 'Encuentros profesionales', 'dashicons-businessperson', 22, array('title'));
     pdl_cms_register_cpt('pdl_taller', 'talleres', 'Taller', 'Talleres', 'dashicons-hammer', 22, array('title', 'page-attributes'));
     pdl_cms_register_cpt('pdl_invitado', 'invitados', 'Invitado', 'Invitados', 'dashicons-groups', 23, array('title', 'page-attributes'));
     pdl_cms_register_cpt('pdl_edicion', 'ediciones', 'Edición (año)', 'Galería', 'dashicons-format-gallery', 24, array('title'));
@@ -125,6 +127,18 @@ function pdl_cms_register_fields()
         pdl_cms_field('evento', 'textarea', 'descripcion', 'Descripción (opcional)', array('rows' => 3)),
         pdl_cms_field('evento', 'true_false', 'destacado', 'Destacado', $destacado),
         pdl_cms_field('evento', 'text', 'clave', 'Clave de sincronización', array('instructions' => 'La rellena la sincronización con la hoja de cálculo. No editar.', 'readonly' => 1)),
+    ));
+
+    // Encuentros profesionales
+    pdl_cms_group('encuentro', 'Datos del encuentro profesional', 'pdl_encuentro', array(
+        pdl_cms_field('encuentro', 'select', 'dia', 'Día', array('choices' => $dias, 'required' => 1, 'return_format' => 'value')),
+        pdl_cms_field('encuentro', 'text', 'hora', 'Hora', array('placeholder' => '11:00', 'required' => 1)),
+        pdl_cms_field('encuentro', 'text', 'lugar', 'Lugar', array('placeholder' => 'Sala Transiberiano')),
+        pdl_cms_field('encuentro', 'text', 'tipo', 'Tipo de actividad', array('placeholder' => 'Taller, Conversación, Charla, Recorrido...')),
+        pdl_cms_field('encuentro', 'text', 'participantes', 'Participantes'),
+        pdl_cms_field('encuentro', 'text', 'organiza', 'Organiza'),
+        pdl_cms_field('encuentro', 'textarea', 'descripcion', 'Descripción', array('rows' => 4)),
+        pdl_cms_field('encuentro', 'text', 'clave', 'Clave de sincronización', array('instructions' => 'La rellena la sincronización con la hoja de cálculo. No editar.', 'readonly' => 1)),
     ));
 
     // Talleres
