@@ -10,7 +10,7 @@ export default function Mapa() {
         <iframe
           title="Ubicación Estación Mapocho"
           className="mapa-embed"
-          src="https://www.google.com/maps?q=Estaci%C3%B3n+Mapocho,+Santiago,+Chile&output=embed"
+          src="https://www.google.com/maps?q=Centro+Cultural+Estaci%C3%B3n+Mapocho,+Plaza+de+la+Cultura,+Santiago,+Chile&output=embed"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         />
@@ -18,7 +18,11 @@ export default function Mapa() {
         <div className="mapa-info">
           <div className="mapa-info-item">
             <strong>Dirección</strong>
-            <span>Bandera 201, Santiago, Estación Mapocho</span>
+            <span>Plaza de la Cultura s/n, ex estación de trenes, Av. Presidente Balmaceda, Santiago</span>
+          </div>
+          <div className="mapa-info-item">
+            <strong>Metro</strong>
+            <span>Cal y Canto</span>
           </div>
           <div className="mapa-info-item">
             <strong>Fechas</strong>

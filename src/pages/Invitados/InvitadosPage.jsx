@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import PageHeader from '../../components/PageHeader.jsx'
+import DescripcionCorta from '../../components/DescripcionCorta.jsx'
 import { useContenido } from '../../data/ContenidoContext.jsx'
 
 export default function InvitadosPage() {
@@ -10,7 +11,7 @@ export default function InvitadosPage() {
 
   return (
     <section className="page-section invitados-page">
-      <PageHeader title="Invitados" subtitle="Autores, poetas, ilustradores y editores de Chile y del mundo." />
+      <PageHeader title="Invitados" subtitle="Autores, editores, libreros y gestores culturales de Chile y del mundo." />
 
       <div className="tipo-filtros" aria-label="Filtrar por tipo de invitado">
         {TIPOS.map((t) => (
@@ -29,7 +30,8 @@ export default function InvitadosPage() {
             <h3 className="invitado-nombre">{inv.nombre}</h3>
             <span className="invitado-rol">{inv.rol}</span>
             <span className="invitado-pais">{inv.pais}</span>
-            <p className="invitado-bio">{inv.bio}</p>
+            <DescripcionCorta texto={inv.bio} className="invitado-bio" />
+            {inv.creditoFoto && <span className="invitado-credito">Foto: {inv.creditoFoto}</span>}
             <span className="invitado-actividad">{inv.actividad}</span>
           </article>
         ))}

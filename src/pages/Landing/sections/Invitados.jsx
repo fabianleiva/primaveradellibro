@@ -11,7 +11,7 @@ export default function Invitados() {
       <img src="/assets/collage/pajaritos.webp" alt="" aria-hidden="true" className="decor decor-invitados-l" />
       <img src="/assets/collage/encuentro.webp" alt="" aria-hidden="true" className="decor decor-invitados-r" />
       <SectionTitle>Invitados</SectionTitle>
-      <p className="section-subtitle">Autores, ilustradores y editores que nos acompañan esta edición.</p>
+      <p className="section-subtitle">Autores, editores, libreros y gestores culturales que nos acompañan esta edición.</p>
 
       <div className="invitados-grid">
         {destacados.map((inv) => (

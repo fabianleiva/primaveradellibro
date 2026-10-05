@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Primavera del Libro - CMS
  * Description: Tipos de contenido (Programa, Talleres, Invitados, Galería) y sus campos ACF, expuestos en la API REST para la web headless.
- * Version: 1.2.0
+ * Version: 1.3.0
  * Author: Primavera del Libro
  * Requires PHP: 7.0
  *
@@ -158,14 +158,16 @@ function pdl_cms_register_fields()
     // Invitados
     pdl_cms_group('invitado', 'Datos del invitado', 'pdl_invitado', array(
         pdl_cms_field('invitado', 'image', 'foto', 'Foto', array('return_format' => 'array', 'preview_size' => 'medium', 'library' => 'all')),
+        pdl_cms_field('invitado', 'text', 'credito_foto', 'Crédito de la foto', array('placeholder' => 'Nombre de quien tomó la foto', 'instructions' => 'Opcional. Se muestra bajo la biografía.')),
         pdl_cms_field('invitado', 'select', 'tipo', 'Categoría', array(
-            'choices'       => pdl_cms_choices(array('Autores/as', 'Poetas', 'Ilustradores/as', 'Editores/as', 'Infancia')),
+            'choices'       => pdl_cms_choices(array('Autores/as', 'Poetas', 'Ilustradores/as', 'Editores/as', 'Profesionales del libro', 'Infancia')),
             'return_format' => 'value',
         )),
         pdl_cms_field('invitado', 'text', 'rol', 'Rol', array('placeholder' => 'Autora · Narrativa')),
         pdl_cms_field('invitado', 'text', 'pais', 'País', array('placeholder' => 'Chile')),
         pdl_cms_field('invitado', 'textarea', 'bio', 'Biografía breve', array('rows' => 4)),
         pdl_cms_field('invitado', 'text', 'actividad', 'Actividad en la feria', array('placeholder' => 'Vie 9 · 12:30 · Sala de charlas')),
+        pdl_cms_field('invitado', 'text', 'clave', 'Clave de sincronización', array('instructions' => 'La rellena la sincronización con la hoja de cálculo. No editar.', 'readonly' => 1)),
         pdl_cms_field('invitado', 'true_false', 'destacado', 'Destacado', $destacado),
     ));
 

@@ -110,6 +110,7 @@ function armarInvitados(items) {
     pais: p.acf.pais || '',
     bio: p.acf.bio || '',
     actividad: p.acf.actividad || '',
+    creditoFoto: p.acf.credito_foto || '',
     destacado: !!p.acf.destacado,
     foto: p.acf.foto?.sizes?.medium_large || p.acf.foto?.url || null,
   }))

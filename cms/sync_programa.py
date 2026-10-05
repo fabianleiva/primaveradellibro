@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sincroniza la hoja de cálculo con WordPress: Programa, Encuentros profesionales y Talleres.
+"""Sincroniza la hoja de cálculo con WordPress: Programa, Encuentros profesionales, Talleres e Invitados.
 
 La hoja es la fuente de verdad. Programa = pestaña "Copia de TODO" (sin las actividades
 de tipo "Encuentros Profesionales"). Encuentros profesionales = pestaña "Encuentros
@@ -31,6 +31,8 @@ import openpyxl
 
 RAIZ = Path(__file__).resolve().parent.parent
 SHEET_ID = '1Je5tgR_sDFv7Zd0i2tzhHJ1syZ-IzNs3'
+SHEET_INVITADOS_ID = '1FeyEWxjHBwFoVBjVr7DfbtwcxYr6jqgM6-cxwD2mCOQ'
+PESTANA_INVITADOS = 'Hoja 1'
 PESTANA = 'Copia de TODO'
 PESTANA_ENCUENTROS = 'Encuentros profesionales'
 PESTANA_TALLERES = 'Descripción de talleres'
@@ -49,9 +51,9 @@ def leer_env():
     return env
 
 
-def descargar_xlsx():
-    url = f'https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=xlsx'
-    destino = Path('/tmp/programa_pdl.xlsx')
+def descargar_xlsx(sheet_id=SHEET_ID, nombre='programa_pdl'):
+    url = f'https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=xlsx'
+    destino = Path(f'/tmp/{nombre}.xlsx')
     with urllib.request.urlopen(url, timeout=60) as r:
         destino.write_bytes(r.read())
     return destino
@@ -176,6 +178,86 @@ def leer_talleres(ruta):
     return talleres
 
 
+def titulo_real(texto, conocidos):
+    """Busca en los títulos del programa el que corresponde a lo escrito en la hoja de invitados."""
+    import difflib
+    objetivo = slug(texto)
+    mejor = max(conocidos, key=lambda t: difflib.SequenceMatcher(None, slug(t), objetivo).ratio(), default=None)
+    if mejor and difflib.SequenceMatcher(None, slug(mejor), objetivo).ratio() > 0.8:
+        return mejor
+    return None
+
+
+def limpiar_actividad(texto, conocidos):
+    """'Viernes 9 13:00 hrs: Encuentros Profesionales: LA LIBRERÍA DESAFIADA' -> 'Viernes 9 · 13:00 · La librería desafiada'.
+    Las actividades 'por confirmar' o reuniones privadas no se publican."""
+    texto = limpio(texto)
+    if not texto or re.search(r'por confirmar|potencial|reuni[oó]n', texto, re.I):
+        return ''
+    m = re.match(r'(\w+)\s+(\d+),?\s+(\d{1,2}:\d{2})\s*h(?:rs?)?\.?:?\s*(.*)$', texto, re.I)
+    if not m:
+        return texto
+    dia, num, hora, resto = m.groups()
+    resto = re.sub(r'^Encuentros? Profesionales?:\s*', '', resto, flags=re.I)
+    real = titulo_real(resto, conocidos)
+    if real is None:
+        real = resto.capitalize() if resto.isupper() else resto
+    return f'{dia.capitalize().replace("Sabado", "Sábado")} {num} · {hora} · {real}'
+
+
+def leer_invitados(ruta, carpeta_fotos, conocidos):
+    """Hoja de invitados. La columna 'Comentario' (financiamiento, etc.) NO se publica;
+    solo se usa para el crédito de la foto si lo trae."""
+    ws = openpyxl.load_workbook(ruta, data_only=True)[PESTANA_INVITADOS]
+    filas = [f for f in ws.iter_rows(values_only=True) if limpio(f[0]) and limpio(f[0]).lower() != 'nombre']
+    # Primero quienes ya tienen actividad pública sin condiciones; el resto, en el orden de la hoja
+    invitados = []
+    for f in filas:
+        nombre, ocupacion, pais, bio = limpio(f[0]), limpio(f[1]), limpio(f[2]), limpio(f[3])
+        credito = ''
+        m = re.search(r'cr[eé]dito de la foto es de ([^.]+)', limpio(f[6]), re.I)
+        if m:
+            credito = m.group(1).strip()
+        clave = slug(nombre)
+        foto = Path(carpeta_fotos) / f'{re.sub("[^a-z]", "", slug(nombre).replace("-", ""))}.jpg' if carpeta_fotos else None
+        invitados.append({
+            'titulo': nombre,
+            'clave': clave,
+            'foto_path': foto if foto and foto.exists() else None,
+            'acf': {
+                'tipo': 'Autores/as' if 'escritor' in ocupacion.lower() else 'Profesionales del libro',
+                'rol': ocupacion,
+                'pais': pais,
+                'bio': bio,
+                'actividad': limpiar_actividad(f[5], conocidos),
+                'credito_foto': credito,
+                'clave': clave,
+            },
+        })
+    invitados.sort(key=lambda i: 0 if i['acf']['tipo'] == 'Autores/as' else 1)
+    for n, i in enumerate(invitados):
+        i['post'] = {'menu_order': n}
+        i['acf_nuevo'] = {'destacado': n < 8 and bool(i['acf']['actividad'] or i['acf']['tipo'] == 'Autores/as')}
+    return invitados
+
+
+def subir_foto(wp, ruta, titulo):
+    """Sube la foto a la biblioteca de medios de WordPress y devuelve su ID."""
+    datos = Path(ruta).read_bytes()
+    req = urllib.request.Request(wp.base + '/media', method='POST', data=datos, headers={
+        'Authorization': wp.headers['Authorization'],
+        'Content-Type': 'image/jpeg',
+        'Content-Disposition': f'attachment; filename="{slug(titulo)}.jpg"',
+    })
+    try:
+        with urllib.request.urlopen(req, timeout=120) as r:
+            medio = json.load(r)
+    except urllib.error.HTTPError as e:
+        sys.exit(f'Error {e.code} subiendo foto de {titulo}: {e.read().decode()[:300]}')
+    wp.pedir('POST', f"/media/{medio['id']}", {'alt_text': f'Foto de {titulo}', 'title': titulo})
+    return medio['id']
+
+
 class WP:
     def __init__(self, env):
         self.base = env['WP_URL'].rstrip('/') + '/wp-json/wp/v2'
@@ -222,10 +304,16 @@ def sincronizar(wp, endpoint, nombre, eventos, args):
 
     estado = 'publish' if args.publish else 'draft'
     for e in nuevos:
-        wp.pedir('POST', f'/{endpoint}', {'title': e['titulo'], 'status': estado, 'acf': {**e['acf'], **e.get('acf_nuevo', {})}})
+        acf = {**e['acf'], **e.get('acf_nuevo', {})}
+        if e.get('foto_path'):
+            acf['foto'] = subir_foto(wp, e['foto_path'], e['titulo'])
+        wp.pedir('POST', f'/{endpoint}', {'title': e['titulo'], 'status': estado, 'acf': acf, **e.get('post', {})})
     for e in cambian:
         p = actuales[e['clave']]
-        wp.pedir('POST', f"/{endpoint}/{p['id']}", {'title': e['titulo'], 'acf': e['acf']})
+        acf = dict(e['acf'])
+        if e.get('foto_path') and not p['acf'].get('foto'):
+            acf['foto'] = subir_foto(wp, e['foto_path'], e['titulo'])
+        wp.pedir('POST', f"/{endpoint}/{p['id']}", {'title': e['titulo'], 'acf': acf, **e.get('post', {})})
     if args.publish:  # publica también los borradores que ya estaban cargados y siguen en la hoja
         for e in eventos:
             p = actuales.get(e['clave'])
@@ -241,6 +329,8 @@ def main():
     ap.add_argument('--apply', action='store_true', help='escribir en WordPress (sin esto solo simula)')
     ap.add_argument('--publish', action='store_true', help='publicar los nuevos (por defecto quedan como borrador)')
     ap.add_argument('--file', help='ruta a un .xlsx local en vez de descargar la hoja')
+    ap.add_argument('--invitados-file', help='ruta a un .xlsx local de invitados')
+    ap.add_argument('--fotos', help='carpeta con las fotos de invitados (<nombre-sin-espacios>.jpg, ya recortadas)')
     args = ap.parse_args()
 
     ruta = Path(args.file) if args.file else descargar_xlsx()
@@ -248,6 +338,9 @@ def main():
     sincronizar(wp, 'programa', 'Programa', leer_programa(ruta), args)
     sincronizar(wp, 'encuentros', 'Encuentros profesionales', leer_encuentros(ruta), args)
     sincronizar(wp, 'talleres', 'Talleres', leer_talleres(ruta), args)
+    ruta_inv = Path(args.invitados_file) if args.invitados_file else descargar_xlsx(SHEET_INVITADOS_ID, 'invitados_pdl')
+    conocidos = [e['titulo'] for e in leer_programa(ruta)] + [e['titulo'] for e in leer_encuentros(ruta)]
+    sincronizar(wp, 'invitados', 'Invitados', leer_invitados(ruta_inv, args.fotos, conocidos), args)
     if not args.apply:
         print('\nSimulación: no se escribió nada. Usa --apply para aplicar.')
 

@@ -24,7 +24,7 @@ export default function Footer() {
 
         <div className="footer-col">
           <span className="footer-col-title">Visítanos</span>
-          <p>Estación Mapocho<br />Bandera 201, Santiago</p>
+          <p>Centro Cultural Estación Mapocho<br />Plaza de la Cultura s/n, Santiago<br />Metro Cal y Canto</p>
           <p>Entrada liberada</p>
           <a href="https://www.instagram.com/primaveradellibro/?hl=es" target="_blank" rel="noopener" className="footer-instagram">
             @primaveradellibro
