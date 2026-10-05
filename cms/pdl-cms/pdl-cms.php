@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Primavera del Libro - CMS
  * Description: Tipos de contenido (Programa, Talleres, Invitados, Galería) y sus campos ACF, expuestos en la API REST para la web headless.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Primavera del Libro
  * Requires PHP: 7.0
  *
@@ -102,6 +102,7 @@ function pdl_cms_register_fields()
     }
 
     $dias = array(
+        'jueves'  => 'Jueves 8 (encuentros profesionales)',
         'viernes' => 'Viernes 9',
         'sabado'  => 'Sábado 10',
         'domingo' => 'Domingo 11',
@@ -117,25 +118,27 @@ function pdl_cms_register_fields()
     pdl_cms_group('evento', 'Datos del evento', 'pdl_evento', array(
         pdl_cms_field('evento', 'select', 'dia', 'Día', array('choices' => $dias, 'required' => 1, 'return_format' => 'value')),
         pdl_cms_field('evento', 'text', 'hora', 'Hora', array('placeholder' => '11:00', 'instructions' => 'Formato 24 horas, por ejemplo 11:00 o 16:30.', 'required' => 1)),
-        pdl_cms_field('evento', 'text', 'lugar', 'Lugar', array('placeholder' => 'Sala de charlas')),
-        pdl_cms_field('evento', 'select', 'tipo', 'Tipo', array(
-            'choices'       => pdl_cms_choices(array('Ceremonia', 'Charla', 'Infantil', 'Taller', 'Lanzamiento', 'Lectura', 'Música', 'Otro')),
-            'return_format' => 'value',
-        )),
+        pdl_cms_field('evento', 'text', 'lugar', 'Lugar', array('placeholder' => 'Escenario principal')),
+        pdl_cms_field('evento', 'text', 'tipo', 'Tipo de actividad', array('placeholder' => 'Lanzamiento, Conversación, Cuentacuentos...')),
+        pdl_cms_field('evento', 'text', 'participantes', 'Participantes'),
+        pdl_cms_field('evento', 'text', 'organiza', 'Organiza'),
         pdl_cms_field('evento', 'textarea', 'descripcion', 'Descripción (opcional)', array('rows' => 3)),
         pdl_cms_field('evento', 'true_false', 'destacado', 'Destacado', $destacado),
+        pdl_cms_field('evento', 'text', 'clave', 'Clave de sincronización', array('instructions' => 'La rellena la sincronización con la hoja de cálculo. No editar.', 'readonly' => 1)),
     ));
 
     // Talleres
     pdl_cms_group('taller', 'Datos del taller', 'pdl_taller', array(
         pdl_cms_field('taller', 'textarea', 'descripcion', 'Descripción', array('rows' => 3)),
-        pdl_cms_field('taller', 'select', 'dia', 'Día', array('choices' => $dias, 'required' => 1, 'return_format' => 'value')),
-        pdl_cms_field('taller', 'text', 'hora', 'Hora', array('placeholder' => '11:00', 'required' => 1)),
+        pdl_cms_field('taller', 'select', 'dia', 'Día', array('choices' => $dias, 'allow_null' => 1, 'return_format' => 'value')),
+        pdl_cms_field('taller', 'text', 'hora', 'Hora', array('placeholder' => '11:00')),
+        pdl_cms_field('taller', 'text', 'a_cargo', 'A cargo de'),
         pdl_cms_field('taller', 'text', 'duracion', 'Duración', array('placeholder' => '90 min')),
         pdl_cms_field('taller', 'text', 'lugar', 'Lugar', array('placeholder' => 'Taller de oficios')),
         pdl_cms_field('taller', 'text', 'publico', 'Público', array('placeholder' => 'Desde 12 años')),
         pdl_cms_field('taller', 'text', 'cupos', 'Cupos', array('placeholder' => '20 cupos')),
         pdl_cms_field('taller', 'true_false', 'destacado', 'Destacado', $destacado),
+        pdl_cms_field('taller', 'text', 'clave', 'Clave de sincronización', array('instructions' => 'La rellena la sincronización con la hoja de cálculo. No editar.', 'readonly' => 1)),
     ));
 
     // Invitados

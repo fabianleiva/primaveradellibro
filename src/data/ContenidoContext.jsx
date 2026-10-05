@@ -50,6 +50,8 @@ function armarPrograma(items) {
     titulo: texto(p.title.rendered),
     lugar: p.acf.lugar || '',
     tipo: p.acf.tipo || 'Otro',
+    participantes: p.acf.participantes || '',
+    organiza: p.acf.organiza || '',
     destacado: !!p.acf.destacado,
     dia: p.acf.dia,
   }))

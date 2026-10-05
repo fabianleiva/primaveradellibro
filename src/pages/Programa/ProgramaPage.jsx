@@ -59,6 +59,7 @@ export default function ProgramaPage() {
             </div>
             <div className="programa-detalle">
               <span className="programa-titulo">{e.titulo}</span>
+              {e.participantes && <span className="programa-participantes">{e.participantes}</span>}
               <span className="programa-lugar">{e.lugar}</span>
             </div>
             <span className="programa-tipo">{e.tipo}</span>
