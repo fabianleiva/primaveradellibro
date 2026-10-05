@@ -12,12 +12,13 @@ export default function Talleres() {
       <img src="/assets/collage/flor-rosa.webp" alt="" aria-hidden="true" className="decor decor-talleres-l" />
       <img src="/assets/collage/mujer-lee.webp" alt="" aria-hidden="true" className="decor decor-talleres-r" />
       <SectionTitle>Talleres de oficios</SectionTitle>
-      <p className="section-subtitle">Aprende haciendo: talleres abiertos para toda la familia.</p>
+      <p className="section-subtitle">Aprende haciendo: talleres abiertos para toda la familia. Cada taller se realiza varias veces al día.</p>
+      <p className="taller-aviso">Inscripción el día de la feria</p>
 
       <div className="talleres-grid">
         {destacados.map((t) => (
           <article key={t.id} className="taller-card">
-            <span className="taller-horario">{[t.corto, t.hora].filter(Boolean).join(' · ')}</span>
+            {(t.cuando ?? `${t.corto} · ${t.hora}`) && <span className="taller-horario">{t.cuando ?? `${t.corto} · ${t.hora}`}</span>}
             <h3 className="taller-titulo">{t.titulo}</h3>
             <DescripcionCorta texto={t.descripcion} />
             {(t.aCargo || t.cupos) && <span className="taller-cupos">{t.aCargo || t.cupos}</span>}

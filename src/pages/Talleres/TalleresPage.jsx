@@ -15,6 +15,7 @@ export default function TalleresPage() {
     <section className="page-section talleres-page">
       <PageHeader title="Talleres de oficios" subtitle="Aprende haciendo: talleres abiertos, junto a Caja Los Andes." />
 
+      <p className="taller-aviso">Inscripción el día de la feria</p>
       <p className="aviso-cruzado">
         Las charlas, lanzamientos y shows están en el <Link to="/programa">programa completo →</Link>
       </p>
@@ -33,7 +34,7 @@ export default function TalleresPage() {
         {talleres.length === 0 && <p className="programa-vacio">No hay talleres este día.</p>}
         {talleres.map((t) => (
           <article key={t.id} className="taller-card">
-            <span className="taller-horario">{[t.corto, t.hora].filter(Boolean).join(' · ')}</span>
+            {(t.cuando ?? `${t.corto} · ${t.hora}`) && <span className="taller-horario">{t.cuando ?? `${t.corto} · ${t.hora}`}</span>}
             <h3 className="taller-titulo">{t.titulo}</h3>
             <DescripcionCorta texto={t.descripcion} />
             <dl className="taller-datos">
@@ -49,7 +50,7 @@ export default function TalleresPage() {
 
       <div className="info-box">
         <strong>¿Cómo participar?</strong>
-        <p>Los talleres se realizan varias veces al día durante la feria. Los horarios exactos se confirmarán pronto.</p>
+        <p>Para participar hay que <strong>inscribirse el día de la feria</strong>. Los talleres se realizan varias veces al día; los horarios exactos se confirmarán pronto.</p>
       </div>
 
       {ejemplo.talleres && <p className="sample-note">Contenido de ejemplo — se reemplazará con los talleres oficiales.</p>}

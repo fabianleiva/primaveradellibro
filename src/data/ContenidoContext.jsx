@@ -88,6 +88,8 @@ function armarTalleres(items) {
         corto: dia ? dia.corto : '',
         diaOrden: dia ? ORDEN_DIAS.indexOf(p.acf.dia) : -1,
         aCargo: p.acf.a_cargo || '',
+        // "Varias veces al día" aplica a todos: se dice una vez en la página, no en cada tarjeta
+        cuando: [dia ? dia.corto : '', p.acf.hora && p.acf.hora !== 'Varias veces al día' ? p.acf.hora : ''].filter(Boolean).join(' · '),
         hora: p.acf.hora || '',
         duracion: p.acf.duracion || '',
         lugar: p.acf.lugar || '',
