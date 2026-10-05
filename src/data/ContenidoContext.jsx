@@ -26,11 +26,12 @@ function texto(html = '') {
   return new DOMParser().parseFromString(html, 'text/html').documentElement.textContent
 }
 
-async function leer(ruta) {
+async function leer(ruta, conOrden) {
   const ctrl = new AbortController()
   const timer = setTimeout(() => ctrl.abort(), 8000)
   try {
-    const url = `${CMS_URL}/wp-json/wp/v2/${ruta}?per_page=100&acf_format=standard&orderby=menu_order&order=asc&_fields=id,title,menu_order,acf`
+    const orden = conOrden ? '&orderby=menu_order&order=asc' : ''
+    const url = `${CMS_URL}/wp-json/wp/v2/${ruta}?per_page=100&acf_format=standard${orden}&_fields=id,title,menu_order,acf`
     const res = await fetch(url, { signal: ctrl.signal })
     if (!res.ok) return []
     const data = await res.json()
@@ -42,6 +43,12 @@ async function leer(ruta) {
   }
 }
 
+const SALAS = ['Escenario principal', 'Sala Acario Cotapos', 'Sala Camilo Mori', 'Sala Transiberiano']
+const porSala = (a, b) => {
+  const i = SALAS.indexOf(a.lugar)
+  const j = SALAS.indexOf(b.lugar)
+  return (i < 0 ? 99 : i) - (j < 0 ? 99 : j)
+}
 const porHora = (a, b) => (a.hora || '').localeCompare(b.hora || '', 'es', { numeric: true })
 
 function armarPrograma(items) {
@@ -58,7 +65,7 @@ function armarPrograma(items) {
   return ORDEN_DIAS.map((id) => ({
     id,
     ...DIAS[id],
-    eventos: eventos.filter((e) => e.dia === id).sort(porHora),
+    eventos: eventos.filter((e) => e.dia === id).sort((a, b) => porHora(a, b) || porSala(a, b)),
   }))
 }
 
@@ -122,8 +129,8 @@ export function ContenidoProvider({ children }) {
 
   useEffect(() => {
     let vivo = true
-    const cargar = (tipo, ruta, armar, vacio) =>
-      leer(ruta).then((items) => {
+    const cargar = (tipo, ruta, armar, vacio, conOrden = false) =>
+      leer(ruta, conOrden).then((items) => {
         if (!vivo || items.length === 0) return
         const nuevo = armar(items)
         if (vacio(nuevo)) return
@@ -131,8 +138,8 @@ export function ContenidoProvider({ children }) {
       })
 
     cargar('programa', 'programa', armarPrograma, (d) => d.every((x) => x.eventos.length === 0))
-    cargar('talleres', 'talleres', armarTalleres, (d) => d.length === 0)
-    cargar('invitados', 'invitados', armarInvitados, (d) => d.length === 0)
+    cargar('talleres', 'talleres', armarTalleres, (d) => d.length === 0, true)
+    cargar('invitados', 'invitados', armarInvitados, (d) => d.length === 0, true)
     cargar('galeria', 'ediciones', armarGaleria, (d) => d.fotos.length === 0)
     return () => {
       vivo = false
