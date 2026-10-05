@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react'
 import PageHeader from '../../components/PageHeader.jsx'
-import { PROGRAMA } from '../../data/programa.js'
-
-const TIPOS = ['Todos', ...Array.from(new Set(PROGRAMA.flatMap((d) => d.eventos.map((e) => e.tipo))))]
+import { useContenido } from '../../data/ContenidoContext.jsx'
 
 export default function ProgramaPage() {
+  const { programa: PROGRAMA, ejemplo } = useContenido()
+  const TIPOS = useMemo(() => ['Todos', ...Array.from(new Set(PROGRAMA.flatMap((d) => d.eventos.map((e) => e.tipo))))], [PROGRAMA])
   const [diaId, setDiaId] = useState(PROGRAMA[0].id)
   const [tipo, setTipo] = useState('Todos')
 
@@ -66,7 +66,7 @@ export default function ProgramaPage() {
         ))}
       </ul>
 
-      <p className="sample-note">Contenido de ejemplo — se reemplazará con el programa oficial.</p>
+      {ejemplo.programa && <p className="sample-note">Contenido de ejemplo — se reemplazará con el programa oficial.</p>}
     </section>
   )
 }

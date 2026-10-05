@@ -187,6 +187,8 @@ section > *:not(.decor) { position: relative; z-index: 1; }
   aspect-ratio: 4 / 3;
   background: repeating-linear-gradient(45deg, #f0e7d2, #f0e7d2 12px, #f7f1e3 12px, #f7f1e3 24px);
 }
+.foto-real { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.invitado-avatar-foto { object-fit: cover; background: var(--crema); }
 .foto-frame figcaption { margin-top: 10px; font-family: var(--font-title); font-size: 13px; color: #9a9a9a; }
 .ver-galeria-btn {
   display: inline-block; font-family: var(--font-title); font-weight: 700; color: var(--gris) !important;

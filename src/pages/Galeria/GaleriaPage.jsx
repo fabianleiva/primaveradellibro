@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import PageHeader from '../../components/PageHeader.jsx'
 import Lightbox from '../../components/Lightbox.jsx'
-import { ANIOS, FOTOS } from '../../data/galeria.js'
+import { useContenido } from '../../data/ContenidoContext.jsx'
 
 export default function GaleriaPage() {
+  const { galeria, ejemplo } = useContenido()
+  const { anios: ANIOS, fotos: FOTOS } = galeria
   const [anio, setAnio] = useState('Todas')
   const [abierta, setAbierta] = useState(null)
 
@@ -41,7 +43,7 @@ export default function GaleriaPage() {
         ))}
       </div>
 
-      <p className="sample-note">Fotos de ejemplo — se reemplazarán con las fotos reales de cada edición.</p>
+      {ejemplo.galeria && <p className="sample-note">Fotos de ejemplo — se reemplazarán con las fotos reales de cada edición.</p>}
 
       {abierta !== null && (
         <Lightbox fotos={fotos} index={abierta} onClose={() => setAbierta(null)} onChange={setAbierta} />

@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import SectionTitle from '../../../components/SectionTitle.jsx'
-import { TALLERES } from '../../../data/talleres.js'
+import { useContenido } from '../../../data/ContenidoContext.jsx'
 
 export default function Talleres() {
+  const { talleres: TALLERES, ejemplo } = useContenido()
   const destacados = TALLERES.filter((t) => t.destacado)
 
   return (
@@ -26,7 +27,7 @@ export default function Talleres() {
       <div className="ver-mas-wrap">
         <Link to="/talleres" className="ver-galeria-btn">Ver todos los talleres →</Link>
       </div>
-      <p className="sample-note">Contenido de ejemplo — se reemplazará con los talleres oficiales.</p>
+      {ejemplo.talleres && <p className="sample-note">Contenido de ejemplo — se reemplazará con los talleres oficiales.</p>}
     </section>
   )
 }

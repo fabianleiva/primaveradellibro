@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import SectionTitle from '../../../components/SectionTitle.jsx'
-import { INVITADOS } from '../../../data/invitados.js'
+import { useContenido } from '../../../data/ContenidoContext.jsx'
 
 export default function Invitados() {
+  const { invitados: INVITADOS, ejemplo } = useContenido()
   const destacados = INVITADOS.filter((i) => i.destacado)
 
   return (
@@ -15,7 +16,9 @@ export default function Invitados() {
       <div className="invitados-grid">
         {destacados.map((inv) => (
           <article key={inv.id} className="invitado-card">
-            <div className="invitado-avatar" aria-hidden="true">{inv.nombre.charAt(0)}</div>
+            {inv.foto
+              ? <img className="invitado-avatar invitado-avatar-foto" src={inv.foto} alt="" loading="lazy" />
+              : <div className="invitado-avatar" aria-hidden="true">{inv.nombre.charAt(0)}</div>}
             <h3 className="invitado-nombre">{inv.nombre}</h3>
             <span className="invitado-rol">{inv.rol}</span>
             <span className="invitado-pais">{inv.pais}</span>
@@ -26,7 +29,7 @@ export default function Invitados() {
       <div className="ver-mas-wrap">
         <Link to="/invitados" className="ver-galeria-btn">Ver todos los invitados →</Link>
       </div>
-      <p className="sample-note">Contenido de ejemplo — se reemplazará con los invitados oficiales.</p>
+      {ejemplo.invitados && <p className="sample-note">Contenido de ejemplo — se reemplazará con los invitados oficiales.</p>}
     </section>
   )
 }

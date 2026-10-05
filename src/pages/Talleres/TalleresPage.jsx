@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import PageHeader from '../../components/PageHeader.jsx'
-import { TALLERES } from '../../data/talleres.js'
+import { useContenido } from '../../data/ContenidoContext.jsx'
 
 const DIAS = ['Todos', 'Viernes 9', 'Sábado 10', 'Domingo 11']
 
 export default function TalleresPage() {
+  const { talleres: TALLERES, ejemplo } = useContenido()
   const [dia, setDia] = useState('Todos')
   const talleres = TALLERES.filter((t) => dia === 'Todos' || t.dia === dia)
 
@@ -42,7 +43,7 @@ export default function TalleresPage() {
         <p>Los talleres son gratuitos y los cupos se asignan por orden de llegada. Toda la información sobre inscripción se confirmará pronto.</p>
       </div>
 
-      <p className="sample-note">Contenido de ejemplo — se reemplazará con los talleres oficiales.</p>
+      {ejemplo.talleres && <p className="sample-note">Contenido de ejemplo — se reemplazará con los talleres oficiales.</p>}
     </section>
   )
 }

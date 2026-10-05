@@ -5,9 +5,11 @@ import ProgramaPage from './pages/Programa/ProgramaPage.jsx'
 import TalleresPage from './pages/Talleres/TalleresPage.jsx'
 import InvitadosPage from './pages/Invitados/InvitadosPage.jsx'
 import GaleriaPage from './pages/Galeria/GaleriaPage.jsx'
+import { ContenidoProvider } from './data/ContenidoContext.jsx'
 
 export default function App() {
   return (
+    <ContenidoProvider>
     <Routes>
       <Route element={<SiteLayout />}>
         <Route path="/" element={<Landing />} />
@@ -18,5 +20,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
+    </ContenidoProvider>
   )
 }

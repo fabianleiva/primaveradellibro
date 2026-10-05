@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import SectionTitle from '../../../components/SectionTitle.jsx'
-import { PROGRAMA } from '../../../data/programa.js'
+import { useContenido } from '../../../data/ContenidoContext.jsx'
 
 export default function Programa() {
+  const { programa: PROGRAMA, ejemplo } = useContenido()
   return (
     <section className="programa-section tear" id="programa" style={{ '--prev-bg': 'var(--crema)' }}>
       <img src="/assets/collage/telefericos.webp" alt="" aria-hidden="true" className="decor decor-programa-r" />
@@ -31,7 +32,7 @@ export default function Programa() {
       <div className="ver-mas-wrap">
         <Link to="/programa" className="ver-galeria-btn">Ver programa completo →</Link>
       </div>
-      <p className="sample-note">Contenido de ejemplo — se reemplazará con el programa oficial.</p>
+      {ejemplo.programa && <p className="sample-note">Contenido de ejemplo — se reemplazará con el programa oficial.</p>}
     </section>
   )
 }
