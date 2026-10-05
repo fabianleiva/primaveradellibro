@@ -30,7 +30,7 @@ export default function Mapa() {
           </div>
           <div className="mapa-info-item">
             <strong>Horario</strong>
-            <span>Por confirmar</span>
+            <span>De 11:00 a 21:00 hrs</span>
           </div>
           <div className="mapa-info-item">
             <strong>Entrada</strong>
