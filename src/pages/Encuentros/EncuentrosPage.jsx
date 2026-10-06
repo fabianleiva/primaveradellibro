@@ -4,7 +4,7 @@ import PageHeader from '../../components/PageHeader.jsx'
 import { useContenido } from '../../data/ContenidoContext.jsx'
 
 export default function EncuentrosPage() {
-  const { encuentros: DIAS } = useContenido()
+  const { encuentros: DIAS, cargando } = useContenido()
   const [diaId, setDiaId] = useState(DIAS[0].id)
 
   const dia = DIAS.find((d) => d.id === diaId) || DIAS[0]
@@ -59,7 +59,9 @@ export default function EncuentrosPage() {
           </ul>
         </>
       ) : (
-        <p className="programa-vacio">Pronto publicaremos aquí los encuentros profesionales del jueves 8 y el viernes 9.</p>
+        <p className="programa-vacio">
+          {cargando.encuentros ? 'Cargando encuentros…' : 'No pudimos cargar los encuentros profesionales. Recarga la página.'}
+        </p>
       )}
     </section>
   )

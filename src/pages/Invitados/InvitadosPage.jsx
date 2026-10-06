@@ -4,7 +4,7 @@ import DescripcionCorta from '../../components/DescripcionCorta.jsx'
 import { useContenido } from '../../data/ContenidoContext.jsx'
 
 export default function InvitadosPage() {
-  const { invitados: INVITADOS, ejemplo } = useContenido()
+  const { invitados: INVITADOS, ejemplo, cargando } = useContenido()
   const TIPOS = ['Todos', ...Array.from(new Set(INVITADOS.map((i) => i.tipo)))]
   const [tipo, setTipo] = useState('Todos')
   const invitados = INVITADOS.filter((i) => tipo === 'Todos' || i.tipo === tipo)
@@ -20,6 +20,10 @@ export default function InvitadosPage() {
           </button>
         ))}
       </div>
+
+      {INVITADOS.length === 0 && (
+        <p className="programa-vacio">{cargando.invitados ? 'Cargando invitados…' : 'No pudimos cargar los invitados. Recarga la página.'}</p>
+      )}
 
       <div className="invitados-grid invitados-grid-page">
         {invitados.map((inv, i) => (

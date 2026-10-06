@@ -223,6 +223,16 @@ section > *:not(.decor) { position: relative; z-index: 1; }
 .sponsor-logos img[alt^="Ministerio"] { height: 64px; max-width: 230px; }
 
 /* ---------- Programa: vista previa y página completa ---------- */
+.descargar-wrap { display: flex; justify-content: center; margin: 0 auto 22px; }
+.descargar-programa {
+  display: inline-flex; align-items: center; gap: 9px; padding: 11px 22px; border-radius: 999px; text-decoration: none;
+  font-family: var(--font-title); font-weight: 700; font-size: 15px; color: var(--azul) !important;
+  background: #fff; border: 2px solid var(--azul);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease, color 0.25s ease;
+}
+.descargar-programa:hover { background: var(--azul); color: #fff !important; transform: scale(1.04); }
+.descargar-programa:active { transform: scale(0.96); }
+.ver-mas-wrap .descargar-programa-landing { margin: 18px auto 0; display: flex; width: fit-content; }
 .aviso-cruzado { max-width: 760px; margin: 0 auto 24px; text-align: center; font-size: 15px; color: #666; }
 .aviso-cruzado a { font-weight: 700; text-decoration: none; color: var(--azul); }
 .aviso-cruzado a:hover { color: var(--rojo); }

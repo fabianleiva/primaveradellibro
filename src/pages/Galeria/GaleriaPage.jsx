@@ -4,7 +4,7 @@ import Lightbox from '../../components/Lightbox.jsx'
 import { useContenido } from '../../data/ContenidoContext.jsx'
 
 export default function GaleriaPage() {
-  const { galeria, ejemplo } = useContenido()
+  const { galeria, ejemplo, cargando } = useContenido()
   const { anios: ANIOS, fotos: FOTOS } = galeria
   const [anio, setAnio] = useState('Todas')
   const [abierta, setAbierta] = useState(null)
@@ -28,6 +28,10 @@ export default function GaleriaPage() {
           </button>
         ))}
       </div>
+
+      {FOTOS.length === 0 && (
+        <p className="programa-vacio">{cargando.galeria ? 'Cargando fotos…' : 'No pudimos cargar las fotos. Recarga la página.'}</p>
+      )}
 
       <div className="galeria-masonry">
         {fotos.map((f, i) => (

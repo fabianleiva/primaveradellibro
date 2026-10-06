@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import SectionTitle from '../../../components/SectionTitle.jsx'
+import DescargarPrograma from '../../../components/DescargarPrograma.jsx'
 import { useContenido } from '../../../data/ContenidoContext.jsx'
 
 export default function Programa() {
@@ -31,6 +32,7 @@ export default function Programa() {
 
       <div className="ver-mas-wrap">
         <Link to="/programa" className="ver-galeria-btn">Ver programa completo →</Link>
+        <DescargarPrograma className="descargar-programa-landing" />
       </div>
       {ejemplo.programa && <p className="sample-note">Contenido de ejemplo — se reemplazará con el programa oficial.</p>}
     </section>

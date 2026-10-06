@@ -7,7 +7,7 @@ import { useContenido } from '../../data/ContenidoContext.jsx'
 const DIAS = ['Todos', 'Viernes 9', 'Sábado 10', 'Domingo 11']
 
 export default function TalleresPage() {
-  const { talleres: TALLERES, ejemplo } = useContenido()
+  const { talleres: TALLERES, ejemplo, cargando } = useContenido()
   const [dia, setDia] = useState('Todos')
   const talleres = TALLERES.filter((t) => dia === 'Todos' || !t.dia || t.dia === dia)
 
@@ -31,7 +31,11 @@ export default function TalleresPage() {
       )}
 
       <div className="talleres-grid talleres-grid-page">
-        {talleres.length === 0 && <p className="programa-vacio">No hay talleres este día.</p>}
+        {talleres.length === 0 && (
+          <p className="programa-vacio">
+            {TALLERES.length > 0 ? 'No hay talleres este día.' : cargando.talleres ? 'Cargando talleres…' : 'No pudimos cargar los talleres. Recarga la página.'}
+          </p>
+        )}
         {talleres.map((t) => (
           <article key={t.id} className="taller-card">
             {(t.cuando ?? `${t.corto} · ${t.hora}`) && <span className="taller-horario">{t.cuando ?? `${t.corto} · ${t.hora}`}</span>}

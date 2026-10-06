@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageHeader from '../../components/PageHeader.jsx'
+import DescargarPrograma from '../../components/DescargarPrograma.jsx'
 import { useContenido } from '../../data/ContenidoContext.jsx'
 
 // El filtro agrupa los tipos de la hoja en pocas categorías; cada ficha sigue mostrando su tipo original.
@@ -17,7 +18,8 @@ function categoria(tipo = '') {
 }
 
 export default function ProgramaPage() {
-  const { programa: PROGRAMA, ejemplo } = useContenido()
+  const { programa: PROGRAMA, ejemplo, cargando } = useContenido()
+  const total = PROGRAMA.reduce((n, d) => n + d.eventos.length, 0)
   const TIPOS = useMemo(() => {
     const presentes = new Set(PROGRAMA.flatMap((d) => d.eventos.map((e) => categoria(e.tipo))))
     return ['Todos', ...CATEGORIAS.filter((c) => presentes.has(c))]
@@ -37,6 +39,10 @@ export default function ProgramaPage() {
       <img src="/assets/collage/ninos-corren.webp" alt="" aria-hidden="true" className="decor decor-programa-l" />
 
       <PageHeader title="Programa" subtitle="9, 10 y 11 de octubre · Estación Mapocho · Entrada liberada" />
+
+      <div className="descargar-wrap">
+        <DescargarPrograma />
+      </div>
 
       <p className="aviso-cruzado">
         Además de este programa, hay <strong>talleres de oficios</strong> abiertos durante la feria. <Link to="/talleres">Ver talleres →</Link>
@@ -74,7 +80,15 @@ export default function ProgramaPage() {
       </div>
 
       <ul className="programa-list">
-        {eventos.length === 0 && <li className="programa-vacio">No hay actividades de este tipo este día.</li>}
+        {eventos.length === 0 && (
+          <li className="programa-vacio">
+            {total > 0
+              ? 'No hay actividades de este tipo este día.'
+              : cargando.programa
+                ? 'Cargando programa…'
+                : 'No pudimos cargar el programa. Puedes descargarlo en PDF con el botón de arriba.'}
+          </li>
+        )}
         {eventos.map((e, i) => (
           <li key={`${diaId}-${i}`} className="programa-item">
             <div className="programa-cuando">

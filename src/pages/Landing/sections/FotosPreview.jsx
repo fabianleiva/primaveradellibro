@@ -14,19 +14,12 @@ export default function FotosPreview() {
       <p className="section-subtitle">Una probadita de lo que hemos vivido juntos estos 15 años.</p>
 
       <div className="fotos-preview-grid">
-        {reales.length > 0
-          ? reales.map((f) => (
-              <figure key={f.id} className="foto-frame">
-                <img className="foto-real" src={f.src} alt={f.titulo} loading="lazy" />
-                <figcaption>{f.anio}</figcaption>
-              </figure>
-            ))
-          : Array.from({ length: PLACEHOLDER_COUNT }).map((_, i) => (
-              <figure key={i} className="foto-frame">
-                <div className="foto-placeholder" />
-                <figcaption>Foto próximamente</figcaption>
-              </figure>
-            ))}
+        {reales.map((f) => (
+          <figure key={f.id} className="foto-frame">
+            <img className="foto-real" src={f.src} alt={f.titulo} loading="lazy" />
+            <figcaption>{f.anio}</figcaption>
+          </figure>
+        ))}
       </div>
 
       <Link to="/galeria" className="ver-galeria-btn">Ver galería completa →</Link>

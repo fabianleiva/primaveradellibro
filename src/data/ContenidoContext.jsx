@@ -1,11 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { PROGRAMA as PROGRAMA_EJEMPLO } from './programa.js'
-import { TALLERES as TALLERES_EJEMPLO } from './talleres.js'
-import { INVITADOS as INVITADOS_EJEMPLO } from './invitados.js'
-import { ANIOS as ANIOS_EJEMPLO, FOTOS as FOTOS_EJEMPLO } from './galeria.js'
 
-// Los datos vienen del CMS (WordPress + ACF). Mientras el CMS no tenga contenido
-// publicado de un tipo, se muestra el contenido de ejemplo de src/data/*.js.
+// Los datos vienen del CMS (WordPress + ACF). Mientras llegan se muestra "Cargando…" (nunca contenido inventado)
+// y la última carga exitosa se guarda en el navegador para que las visitas siguientes aparezcan al instante.
 const CMS_URL = import.meta.env.VITE_CMS_URL || 'https://cms.primaveradellibro.cl'
 
 const DIAS = {
@@ -18,12 +14,29 @@ const ORDEN_DIAS = ['viernes', 'sabado', 'domingo']
 const ORDEN_ENCUENTROS = ['jueves', 'viernes']
 const sinEventos = (orden) => orden.map((id) => ({ id, ...DIAS[id], eventos: [] }))
 
-const EJEMPLO = {
-  programa: PROGRAMA_EJEMPLO,
+const VACIO = {
+  programa: sinEventos(ORDEN_DIAS),
   encuentros: sinEventos(ORDEN_ENCUENTROS),
-  talleres: TALLERES_EJEMPLO,
-  invitados: INVITADOS_EJEMPLO,
-  galeria: { anios: ANIOS_EJEMPLO, fotos: FOTOS_EJEMPLO },
+  talleres: [],
+  invitados: [],
+  galeria: { anios: [], fotos: [] },
+}
+const TIPOS = Object.keys(VACIO)
+const CLAVE_CACHE = 'pdl-contenido-v1'
+const leerCache = () => {
+  try {
+    const c = JSON.parse(localStorage.getItem(CLAVE_CACHE))
+    return c && typeof c === 'object' ? c : {}
+  } catch {
+    return {}
+  }
+}
+const guardarCache = (datos) => {
+  try {
+    localStorage.setItem(CLAVE_CACHE, JSON.stringify(datos))
+  } catch {
+    /* sin almacenamiento: no pasa nada */
+  }
 }
 
 function texto(html = '') {
@@ -136,16 +149,25 @@ function armarGaleria(items) {
 const Contexto = createContext(null)
 
 export function ContenidoProvider({ children }) {
-  const [contenido, setContenido] = useState({ ...EJEMPLO, ejemplo: { programa: true, encuentros: true, talleres: true, invitados: true, galeria: true } })
+  const [contenido, setContenido] = useState(() => {
+    const cache = leerCache()
+    return {
+      ...VACIO,
+      ...cache,
+      cargando: Object.fromEntries(TIPOS.map((t) => [t, !cache[t]])),
+      ejemplo: Object.fromEntries(TIPOS.map((t) => [t, false])), // ya no hay contenido de ejemplo
+    }
+  })
 
   useEffect(() => {
     let vivo = true
     const cargar = (tipo, ruta, armar, vacio, conOrden = false) =>
       leer(ruta, conOrden).then((items) => {
-        if (!vivo || items.length === 0) return
-        const nuevo = armar(items)
-        if (vacio(nuevo)) return
-        setContenido((c) => ({ ...c, [tipo]: nuevo, ejemplo: { ...c.ejemplo, [tipo]: false } }))
+        if (!vivo) return
+        const nuevo = items.length > 0 ? armar(items) : null
+        const util = nuevo && !vacio(nuevo)
+        if (util) guardarCache({ ...leerCache(), [tipo]: nuevo })
+        setContenido((c) => ({ ...c, ...(util ? { [tipo]: nuevo } : {}), cargando: { ...c.cargando, [tipo]: false } }))
       })
 
     cargar('programa', 'programa', armarPrograma, (d) => d.every((x) => x.eventos.length === 0))
