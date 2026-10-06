@@ -91,6 +91,9 @@ CAMBIAR_PROGRAMA = [  # (día, hora, inicio del título, cambios)
     ('viernes', '19:00', 'Prenderse fuego', {'lugar': 'Sala Transiberiano', 'organiza': 'Primavera del Libro'}),
     ('viernes', '19:00', 'Don Francisco', {'titulo': 'Don Francisco, historia de un intocable, de Laura Landaeta'}),  # la hoja ya lo movió a las 19:00 pero conserva el título anterior
     ('sabado', '19:00', 'Divulgación y ciencias sociales', {'participantes_quitar': 'Isidora Sesnic'}),
+    ('viernes', '17:00', 'La envoltura de los libros', {'tipo': 'Conversación', 'descripcion_reemplazar': ('Conversatorio', 'Conversación')}),  # Andrea: "Conversación"
+    # Andrea Palet, 6 de octubre: descripción más corta
+    ('sabado', '17:00', 'Hablemos de mujeres pioneras', {'descripcion': 'Encuentro donde la investigación dialogará con una experiencia artística y patrimonial en torno a la identidad porteña. Con la participación de la presidenta de la Sociedad Mutualista de Mujeres Obreras.'}),
     # Del PDF "Programa general_PDL26" (prima sobre la hoja; los correos de Andrea prima sobre el PDF)
     ('viernes', '19:00', 'Don Francisco', {'organiza': 'Ceibo'}),
     ('viernes', '20:00', 'Cancamusa', {'tipo': 'Show musical'}),
@@ -102,7 +105,8 @@ CAMBIAR_ENCUENTROS = [
     ('viernes', '17:00', 'La envoltura de los libros', {'tipo': 'Conversación', 'descripcion_reemplazar': ('Conversatorio', 'Conversación')}),
     ('viernes', '15:00', 'Publicar a un Nobel', {'tipo': 'Entrevista'}),
 ]
-ENCUENTROS_FORZADOS = ['La envoltura de los libros']  # van a Encuentros profesionales aunque la hoja cambie su tipo
+ENCUENTROS_FORZADOS = []  # (vacío) actividades que van a Encuentros profesionales aunque la hoja diga otra cosa
+PROGRAMA_FORZADOS = ['La envoltura de los libros']  # van al programa general aunque la hoja las marque como Encuentros Profesionales (decisión del 6 oct)
 ACTIVIDAD_INVITADOS = {  # nombre -> actividad (corrección del correo "En invitados internacionales")
     'pablo-katchadjian': 'Sábado 10 · 19:00 · Cómo estamos leyendo. La violencia de la comprensión',
     'dolores-gil': 'Sábado 10 · 18:00 · Escribir lo que se perdió',
@@ -123,7 +127,7 @@ def aplicar_correcciones(eventos, quitar=(), cambiar=()):
             a = e['acf']
             if 'titulo' in cambios:
                 e['titulo'] = cambios['titulo']
-            for k in ('hora', 'lugar', 'tipo', 'organiza'):
+            for k in ('hora', 'lugar', 'tipo', 'organiza', 'descripcion'):
                 if k in cambios:
                     a[k] = cambios[k]
             if 'participantes_quitar' in cambios:
@@ -154,7 +158,8 @@ def leer_programa(ruta, solo_encuentros=False):
         if not dia or not nombre:
             continue
         forzado = any(slug(nombre).startswith(slug(x)) for x in ENCUENTROS_FORZADOS)
-        if (es_encuentro(limpio(f[3])) or forzado) != solo_encuentros:
+        en_programa = any(slug(nombre).startswith(slug(x)) for x in PROGRAMA_FORZADOS)
+        if ((es_encuentro(limpio(f[3])) and not en_programa) or forzado) != solo_encuentros:
             continue
         hora = hora_texto(f[1])
         clave = slug(f'{dia}-{hora}-{limpio(f[2])}-{nombre}')[:120]
@@ -229,7 +234,7 @@ def leer_talleres(ruta):
                 'hora': 'Varias veces al día',
                 'duracion': duracion,
                 'lugar': '',
-                'publico': limpio(f[2]),
+                'publico': 'Mayores de 12 años' if re.fullmatch(r'\+\s*12', limpio(f[2])) else limpio(f[2]),
                 'cupos': '',
                 'a_cargo': limpio(f[4]),
                 'clave': clave,

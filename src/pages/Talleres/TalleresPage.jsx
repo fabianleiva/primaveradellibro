@@ -54,7 +54,8 @@ export default function TalleresPage() {
 
       <div className="info-box">
         <strong>¿Cómo participar?</strong>
-        <p>Para participar hay que <strong>inscribirse el día de la feria</strong>. Los talleres se realizan varias veces al día; los horarios exactos se confirmarán pronto.</p>
+        <p>Los talleres tienen <strong>cupos limitados</strong> y las <strong>inscripciones son el día de la feria, por orden de llegada</strong>. Se realizan varias veces al día.</p>
+        <p>Son para todas las edades, excepto los marcados como <strong>Mayores de 12 años</strong>. Los menores deben asistir acompañados por una persona adulta.</p>
       </div>
 
       {ejemplo.talleres && <p className="sample-note">Contenido de ejemplo — se reemplazará con los talleres oficiales.</p>}
