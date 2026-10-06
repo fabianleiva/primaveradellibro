@@ -88,9 +88,11 @@ QUITAR = [  # (día, hora, inicio del título)
 ]
 CAMBIAR_PROGRAMA = [  # (día, hora, inicio del título, cambios)
     ('viernes', '16:00', 'Don Francisco', {'titulo': 'Don Francisco, historia de un intocable, de Laura Landaeta', 'hora': '19:00', 'lugar': 'Sala Camilo Mori'}),
-    ('viernes', '19:00', 'Prenderse fuego', {'lugar': 'Sala Transiberiano', 'organiza': 'Primavera del Libro'}),
+    ('viernes', '19:00', 'Prenderse fuego', {'lugar': 'Sala Transiberiano', 'organiza': 'Primavera del Libro', 'participantes_reemplazar': (r'Bahamonde(?!s)', 'Bahamondes')}),
     ('viernes', '19:00', 'Don Francisco', {'titulo': 'Don Francisco, historia de un intocable, de Laura Landaeta'}),  # la hoja ya lo movió a las 19:00 pero conserva el título anterior
-    ('sabado', '19:00', 'Divulgación y ciencias sociales', {'participantes_quitar': 'Isidora Sesnic'}),
+    ('sabado', '19:00', 'Divulgación y ciencias sociales', {'participantes_quitar': 'Isidora Sesnic', 'participantes_agregar': 'Osvaldo Carvajal'}),
+    # Andrea Palet, 6 de octubre (2.º correo)
+    ('domingo', '16:00', 'La leyenda de Electrodomésticos', {'titulo': 'La Nueva Canción Chilena - Electrodomésticos'}),
     ('viernes', '17:00', 'La envoltura de los libros', {'tipo': 'Conversación', 'descripcion_reemplazar': ('Conversatorio', 'Conversación')}),  # Andrea: "Conversación"
     # Andrea Palet, 6 de octubre: descripción más corta
     ('sabado', '17:00', 'Hablemos de mujeres pioneras', {'descripcion': 'Encuentro donde la investigación dialogará con una experiencia artística y patrimonial en torno a la identidad porteña. Con la participación de la presidenta de la Sociedad Mutualista de Mujeres Obreras.'}),
@@ -132,6 +134,14 @@ def aplicar_correcciones(eventos, quitar=(), cambiar=()):
                     a[k] = cambios[k]
             if 'participantes_quitar' in cambios:
                 a['participantes'] = re.sub(r',\s*,', ',', a['participantes'].replace(cambios['participantes_quitar'], '')).strip(' ,')
+            if 'participantes_reemplazar' in cambios:
+                a['participantes'] = re.sub(cambios['participantes_reemplazar'][0], cambios['participantes_reemplazar'][1], a['participantes'])
+            if 'participantes_agregar' in cambios and cambios['participantes_agregar'] not in a['participantes']:
+                m = re.search(r'\.?\s*Modera:', a['participantes'])
+                if m:
+                    a['participantes'] = f"{a['participantes'][:m.start()].rstrip(' ,.')}, {cambios['participantes_agregar']}. {a['participantes'][m.start():].lstrip('. ')}"
+                else:
+                    a['participantes'] = f"{a['participantes'].rstrip(' .')}, {cambios['participantes_agregar']}"
             if 'descripcion_reemplazar' in cambios:
                 a['descripcion'] = a['descripcion'].replace(*cambios['descripcion_reemplazar'])
             if any(k in cambios for k in ('titulo', 'hora', 'lugar')):  # la clave depende de estos datos
