@@ -119,13 +119,13 @@ function armarInvitados(items) {
 function armarGaleria(items) {
   const ediciones = items
     .map((p) => ({ anio: parseInt(texto(p.title.rendered), 10), id: p.id, fotos: Array.isArray(p.acf.fotos) ? p.acf.fotos : [] }))
-    .filter((e) => !Number.isNaN(e.anio))
+    .filter((e) => !Number.isNaN(e.anio) && e.fotos.length > 0) // los años sin fotos no aparecen
     .sort((a, b) => b.anio - a.anio)
   const fotos = ediciones.flatMap((e) =>
     e.fotos.map((f) => ({
       id: `${e.id}-${f.id}`,
       anio: e.anio,
-      titulo: f.alt || f.title || `Primavera del Libro ${e.anio}`,
+      titulo: `Primavera del Libro ${e.anio}`, // el título de WordPress suele ser el nombre del archivo (DSC0123), no se muestra
       src: f.sizes?.large || f.url,
       ratio: f.width && f.height ? `${f.width} / ${f.height}` : '4 / 3',
     })),

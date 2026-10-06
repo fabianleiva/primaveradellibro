@@ -1,13 +1,25 @@
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 
 export default function Lightbox({ fotos, index, onClose, onChange }) {
   const closeRef = useRef(null)
   const foto = fotos[index]
+  const toque = useRef(null)
+
+  // Deslizar con el dedo: izquierda = siguiente, derecha = anterior
+  const alTocar = (e) => { toque.current = e.touches[0].clientX }
+  const alSoltar = (e) => {
+    if (toque.current === null) return
+    const dx = e.changedTouches[0].clientX - toque.current
+    toque.current = null
+    if (Math.abs(dx) < 50) return
+    onChange(dx < 0 ? (index + 1) % fotos.length : (index - 1 + fotos.length) % fotos.length)
+  }
 
   useEffect(() => {
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    closeRef.current?.focus()
+    closeRef.current?.focus({ preventScroll: true })
     return () => {
       document.body.style.overflow = prevOverflow
     }
@@ -23,8 +35,9 @@ export default function Lightbox({ fotos, index, onClose, onChange }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [index, fotos.length, onClose, onChange])
 
-  return (
-    <div className="lightbox" role="dialog" aria-modal="true" aria-label={foto.titulo} onClick={onClose}>
+  // Se dibuja en <body>, fuera de la sección: así queda fijo sobre toda la pantalla
+  return createPortal(
+    <div className="lightbox" role="dialog" aria-modal="true" aria-label={foto.titulo} onClick={onClose} onTouchStart={alTocar} onTouchEnd={alSoltar}>
       <button ref={closeRef} type="button" className="lightbox-btn lightbox-close" aria-label="Cerrar" onClick={onClose}>×</button>
       <button
         type="button"
@@ -46,6 +59,7 @@ export default function Lightbox({ fotos, index, onClose, onChange }) {
         aria-label="Foto siguiente"
         onClick={(e) => { e.stopPropagation(); onChange((index + 1) % fotos.length) }}
       >›</button>
-    </div>
+    </div>,
+    document.body,
   )
 }
