@@ -7,6 +7,8 @@
   --gris: #4d4d4d;
   --crema: #f9f7ef;
   --nav-bg: var(--amarillo);
+  --nav-bg-glass: rgba(229, 186, 118, 0.80);
+  --nav-bg-glass-menu: rgba(229, 186, 118, 0.50);
   --nav-text: var(--gris);
   --nav-accent: var(--rojo);
   --cta-bg: var(--gris);

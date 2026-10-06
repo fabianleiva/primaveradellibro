@@ -78,6 +78,63 @@ def separar_cupos(tipo, descripcion):
     return limpio(tipo.replace(m.group(0), '')), limpio(f'{descripcion} {nota}')
 
 
+# --- Correcciones recibidas por correo (Andrea Palet, lunes 5 de octubre de 2026) ---
+# Se aplican siempre al leer la hoja, para que una nueva sincronización no las deshaga.
+# Si los organizadores corrigen la hoja y la fila ya no coincide con (día, hora, título), la corrección no hace nada.
+QUITAR = [  # (día, hora, inicio del título)
+    ('viernes', '13:00', '¿Cómo contar nuestros mitos?'),
+    ('viernes', '19:00', 'Mirko Jozic'),
+    ('domingo', '11:00', 'Cuentacuentos cantados'),  # el de las 15:00 se mantiene
+]
+CAMBIAR_PROGRAMA = [  # (día, hora, inicio del título, cambios)
+    ('viernes', '16:00', 'Don Francisco', {'titulo': 'Don Francisco, historia de un intocable, de Laura Landaeta', 'hora': '19:00', 'lugar': 'Sala Camilo Mori'}),
+    ('viernes', '19:00', 'Prenderse fuego', {'lugar': 'Sala Transiberiano', 'organiza': 'Primavera del Libro'}),
+    ('viernes', '19:00', 'Don Francisco', {'titulo': 'Don Francisco, historia de un intocable, de Laura Landaeta'}),  # la hoja ya lo movió a las 19:00 pero conserva el título anterior
+    ('sabado', '19:00', 'Divulgación y ciencias sociales', {'participantes_quitar': 'Isidora Sesnic'}),
+    # Del PDF "Programa general_PDL26" (prima sobre la hoja; los correos de Andrea prima sobre el PDF)
+    ('viernes', '19:00', 'Don Francisco', {'organiza': 'Ceibo'}),
+    ('viernes', '20:00', 'Cancamusa', {'tipo': 'Show musical'}),
+    ('sabado', '16:00', 'Nueva estación', {'tipo': 'Lanzamiento'}),
+    ('sabado', '19:00', 'Cómo estamos leyendo', {'titulo': 'Cómo estamos leyendo. La violencia de la comprensión, con Cynthia Rimsky'}),
+]
+CAMBIAR_ENCUENTROS = [
+    ('jueves', '16:00', 'Taller de podcast literario', {'participantes_quitar': 'Plan LEO'}),
+    ('viernes', '17:00', 'La envoltura de los libros', {'tipo': 'Conversación', 'descripcion_reemplazar': ('Conversatorio', 'Conversación')}),
+    ('viernes', '15:00', 'Publicar a un Nobel', {'tipo': 'Entrevista'}),
+]
+ENCUENTROS_FORZADOS = ['La envoltura de los libros']  # van a Encuentros profesionales aunque la hoja cambie su tipo
+ACTIVIDAD_INVITADOS = {  # nombre -> actividad (corrección del correo "En invitados internacionales")
+    'pablo-katchadjian': 'Sábado 10 · 19:00 · Cómo estamos leyendo. La violencia de la comprensión',
+    'dolores-gil': 'Sábado 10 · 18:00 · Escribir lo que se perdió',
+    'cynthia-rimsky': 'Sábado 10 · 19:00 · Cómo estamos leyendo. La violencia de la comprensión',  # sin el ", con Cynthia Rimsky" del título del programa
+}
+
+
+def _coincide(e, dia, hora, inicio):
+    return e['acf']['dia'] == dia and e['acf']['hora'] == hora and slug(e['titulo']).startswith(slug(inicio))
+
+
+def aplicar_correcciones(eventos, quitar=(), cambiar=()):
+    eventos = [e for e in eventos if not any(_coincide(e, *q) for q in quitar)]
+    for dia, hora, inicio, cambios in cambiar:
+        for e in eventos:
+            if not _coincide(e, dia, hora, inicio):
+                continue
+            a = e['acf']
+            if 'titulo' in cambios:
+                e['titulo'] = cambios['titulo']
+            for k in ('hora', 'lugar', 'tipo', 'organiza'):
+                if k in cambios:
+                    a[k] = cambios[k]
+            if 'participantes_quitar' in cambios:
+                a['participantes'] = re.sub(r',\s*,', ',', a['participantes'].replace(cambios['participantes_quitar'], '')).strip(' ,')
+            if 'descripcion_reemplazar' in cambios:
+                a['descripcion'] = a['descripcion'].replace(*cambios['descripcion_reemplazar'])
+            if any(k in cambios for k in ('titulo', 'hora', 'lugar')):  # la clave depende de estos datos
+                e['clave'] = a['clave'] = slug(f"{a['dia']}-{a['hora']}-{a['lugar']}-{e['titulo']}")[:120]
+    return eventos
+
+
 def es_encuentro(tipo):
     return 'encuentros profesionales' in tipo.lower()
 
@@ -96,7 +153,8 @@ def leer_programa(ruta, solo_encuentros=False):
         nombre = limpio(f[4])
         if not dia or not nombre:
             continue
-        if es_encuentro(limpio(f[3])) != solo_encuentros:
+        forzado = any(slug(nombre).startswith(slug(x)) for x in ENCUENTROS_FORZADOS)
+        if (es_encuentro(limpio(f[3])) or forzado) != solo_encuentros:
             continue
         hora = hora_texto(f[1])
         clave = slug(f'{dia}-{hora}-{limpio(f[2])}-{nombre}')[:120]
@@ -120,7 +178,9 @@ def leer_programa(ruta, solo_encuentros=False):
                 'clave': clave,
             },
         })
-    return eventos
+    if solo_encuentros:
+        return eventos
+    return aplicar_correcciones(eventos, QUITAR, CAMBIAR_PROGRAMA)
 
 
 def leer_encuentros(ruta):
@@ -146,7 +206,7 @@ def leer_encuentros(ruta):
     for e in leer_programa(ruta, solo_encuentros=True):
         if (e['acf']['dia'], slug(e['titulo'])) not in vistos:
             eventos.append(e)
-    return eventos
+    return aplicar_correcciones(eventos, (), CAMBIAR_ENCUENTROS)
 
 
 def leer_talleres(ruta):
@@ -229,7 +289,7 @@ def leer_invitados(ruta, carpeta_fotos, conocidos):
                 'rol': ocupacion,
                 'pais': pais,
                 'bio': bio,
-                'actividad': limpiar_actividad(f[5], conocidos),
+                'actividad': ACTIVIDAD_INVITADOS.get(clave) or limpiar_actividad(f[5], conocidos),
                 'credito_foto': credito,
                 'clave': clave,
             },

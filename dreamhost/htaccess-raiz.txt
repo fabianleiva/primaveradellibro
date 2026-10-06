@@ -1,0 +1,34 @@
+# Primavera del Libro: sitio React (una sola página) en la raíz del dominio.
+# Este archivo se sube a la raíz con el nombre ".htaccess".
+# Reemplaza al bloque de WordPress que había antes, porque la raíz ya no es un WordPress
+# (el WordPress del QR vive en la carpeta /wp y tiene su propio .htaccess).
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# 1) No tocar el WordPress del QR (/wp/...) ni los certificados (/.well-known/...)
+RewriteRule ^wp(/|$) - [L]
+RewriteRule ^\.well-known/ - [L]
+
+# 2) Si el archivo o la carpeta existen de verdad (imágenes, scripts, robots.txt...), entregarlos tal cual
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 3) Cualquier otra ruta (/programa, /talleres, /invitados...) la resuelve el sitio React
+RewriteRule ^ /index.html [L]
+</IfModule>
+
+# Caché: que la página principal se revise siempre, y los archivos con nombre único se guarden un año
+<IfModule mod_headers.c>
+<FilesMatch "\.html$">
+Header set Cache-Control "no-cache"
+</FilesMatch>
+<FilesMatch "^index-.*\.(js|css)$">
+Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+<FilesMatch "\.(webp|png|jpg|jpeg|svg)$">
+Header set Cache-Control "public, max-age=86400"
+</FilesMatch>
+</IfModule>
