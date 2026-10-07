@@ -3,11 +3,34 @@ import PageHeader from '../../components/PageHeader.jsx'
 import Lightbox from '../../components/Lightbox.jsx'
 import { useContenido } from '../../data/ContenidoContext.jsx'
 
+const POR_TANDA = 24
+
+// Cada foto reserva su espacio (proporción real) y aparece con un fundido cuando termina de cargar:
+// la página no se mueve y se nota que está cargando, en vez de ver fotos entrar de a una.
+function FotoGaleria({ f, i, onAbrir }) {
+  const [lista, setLista] = useState(false)
+  return (
+    <button type="button" className="galeria-item" onClick={() => onAbrir(i)} aria-label={`Abrir ${f.titulo}`}>
+      <span className={`galeria-foto${lista ? ' lista' : ''}`} style={{ aspectRatio: f.ratio }}>
+        <img
+          ref={(el) => { if (el && el.complete && el.naturalWidth) setLista(true) }}
+          src={f.src}
+          alt={f.titulo}
+          loading={i < 12 ? 'eager' : 'lazy'}
+          decoding="async"
+          onLoad={() => setLista(true)}
+        />
+      </span>
+    </button>
+  )
+}
+
 export default function GaleriaPage() {
   const { galeria, ejemplo, cargando } = useContenido()
   const { anios: ANIOS, fotos: FOTOS } = galeria
   const [anio, setAnio] = useState('Todas')
   const [abierta, setAbierta] = useState(null)
+  const [cuantas, setCuantas] = useState(POR_TANDA)
 
   const fotos = anio === 'Todas' ? FOTOS : FOTOS.filter((f) => f.anio === anio)
 
@@ -22,7 +45,7 @@ export default function GaleriaPage() {
             type="button"
             className={`tipo-chip${a === anio ? ' active' : ''}`}
             aria-pressed={a === anio}
-            onClick={() => setAnio(a)}
+            onClick={() => { setAnio(a); setCuantas(POR_TANDA) }}
           >
             {a}
           </button>
@@ -34,18 +57,18 @@ export default function GaleriaPage() {
       )}
 
       <div className="galeria-masonry">
-        {fotos.map((f, i) => (
-          <button key={f.id} type="button" className="galeria-item" onClick={() => setAbierta(i)} aria-label={`Abrir ${f.titulo}`}>
-            {f.src ? (
-              <img src={f.src} alt={f.titulo} loading="lazy" />
-            ) : (
-              <div className={`galeria-placeholder tono-${i % 5}`} style={{ aspectRatio: f.ratio }}>
-                <span>{f.anio}</span>
-              </div>
-            )}
-          </button>
+        {fotos.slice(0, cuantas).map((f, i) => (
+          <FotoGaleria key={f.id} f={f} i={i} onAbrir={setAbierta} />
         ))}
       </div>
+
+      {fotos.length > cuantas && (
+        <div className="ver-mas-wrap">
+          <button type="button" className="ver-galeria-btn galeria-mas" onClick={() => setCuantas((n) => n + POR_TANDA)}>
+            Ver más fotos ({fotos.length - cuantas} más)
+          </button>
+        </div>
+      )}
 
       {ejemplo.galeria && <p className="sample-note">Fotos de ejemplo — se reemplazarán con las fotos reales de cada edición.</p>}
 
