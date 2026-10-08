@@ -62,7 +62,7 @@ async function leer(ruta, conOrden) {
   }
 }
 
-const SALAS = ['Escenario principal', 'Sala Acario Cotapos', 'Sala Camilo Mori', 'Sala Transiberiano']
+const SALAS = ['Escenario principal', 'Sala Acario Cotapos', 'Sala Pedro Prado', 'Sala Transiberiano']
 const porSala = (a, b) => {
   const i = SALAS.indexOf(a.lugar)
   const j = SALAS.indexOf(b.lugar)

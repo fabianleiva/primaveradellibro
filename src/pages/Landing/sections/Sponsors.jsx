@@ -1,12 +1,18 @@
 import SectionTitle from '../../../components/SectionTitle.jsx'
 const GROUPS = [
   { titulo: 'Organiza', nivel: 1, logos: [['Logo_EditorialesdeChile', 'Editoriales de Chile']] },
-  { titulo: 'Colabora', nivel: 2, logos: [['Logo_CajaLosAndes', 'Caja Los Andes']] },
+  {
+    titulo: 'Colabora',
+    nivel: 2,
+    logos: [
+      ['Logo_CajaLosAndes', 'Caja Los Andes'],
+      ['Logo_ProChile', 'ProChile'],
+    ],
+  },
   {
     titulo: 'Apoyan',
     logos: [
       ['Logo_MINCAP', 'Ministerio de las Culturas, las Artes y el Patrimonio'],
-      ['Logo_ProChile', 'ProChile'],
       ['Logo_Aquiselee', 'Aquí se lee'],
       ['MT_logotipo_institucional', 'Museo Taller'],
       ['Logo-RS-vertical-2Recurso-2', 'Reciclar es simple'],

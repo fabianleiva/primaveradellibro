@@ -91,6 +91,8 @@ CAMBIAR_PROGRAMA = [  # (día, hora, inicio del título, cambios)
     ('viernes', '19:00', 'Prenderse fuego', {'lugar': 'Sala Transiberiano', 'organiza': 'Primavera del Libro', 'participantes_reemplazar': (r'Bahamonde(?!s)', 'Bahamondes')}),
     ('viernes', '19:00', 'Don Francisco', {'titulo': 'Don Francisco, historia de un intocable, de Laura Landaeta'}),  # la hoja ya lo movió a las 19:00 pero conserva el título anterior
     ('sabado', '19:00', 'Divulgación y ciencias sociales', {'participantes_quitar': 'Isidora Sesnic', 'participantes_agregar': 'Osvaldo Carvajal'}),
+    # Andrea Palet, 7 de octubre
+    ('viernes', '17:00', 'Desmantelan el Estado', {'participantes_reemplazar': ('Rodrigo Bustos', 'Andrés Estefane')}),
     # Andrea Palet, 6 de octubre (2.º correo)
     ('domingo', '16:00', 'La leyenda de Electrodomésticos', {'titulo': 'La Nueva Canción Chilena - Electrodomésticos'}),
     ('viernes', '17:00', 'La envoltura de los libros', {'tipo': 'Conversación', 'descripcion_reemplazar': ('Conversatorio', 'Conversación')}),  # Andrea: "Conversación"
@@ -107,6 +109,8 @@ CAMBIAR_ENCUENTROS = [
     ('viernes', '17:00', 'La envoltura de los libros', {'tipo': 'Conversación', 'descripcion_reemplazar': ('Conversatorio', 'Conversación')}),
     ('viernes', '15:00', 'Publicar a un Nobel', {'tipo': 'Entrevista'}),
 ]
+# Andrea Palet, 7 de octubre: "se llovió la sala Camilo Mori": todas sus actividades pasan a la sala Pedro Prado
+RENOMBRAR_SALAS = {'Sala Camilo Mori': 'Sala Pedro Prado'}
 ENCUENTROS_FORZADOS = []  # (vacío) actividades que van a Encuentros profesionales aunque la hoja diga otra cosa
 PROGRAMA_FORZADOS = ['La envoltura de los libros']  # van al programa general aunque la hoja las marque como Encuentros Profesionales (decisión del 6 oct)
 ACTIVIDAD_INVITADOS = {  # nombre -> actividad (corrección del correo "En invitados internacionales")
@@ -146,6 +150,15 @@ def aplicar_correcciones(eventos, quitar=(), cambiar=()):
                 a['descripcion'] = a['descripcion'].replace(*cambios['descripcion_reemplazar'])
             if any(k in cambios for k in ('titulo', 'hora', 'lugar')):  # la clave depende de estos datos
                 e['clave'] = a['clave'] = slug(f"{a['dia']}-{a['hora']}-{a['lugar']}-{e['titulo']}")[:120]
+    return eventos
+
+
+def renombrar_salas(eventos):
+    for e in eventos:
+        a = e['acf']
+        if a['lugar'] in RENOMBRAR_SALAS:
+            a['lugar'] = RENOMBRAR_SALAS[a['lugar']]
+            e['clave'] = a['clave'] = slug(f"{a['dia']}-{a['hora']}-{a['lugar']}-{e['titulo']}")[:120]  # la clave incluye la sala
     return eventos
 
 
@@ -195,7 +208,7 @@ def leer_programa(ruta, solo_encuentros=False):
         })
     if solo_encuentros:
         return eventos
-    return aplicar_correcciones(eventos, QUITAR, CAMBIAR_PROGRAMA)
+    return renombrar_salas(aplicar_correcciones(eventos, QUITAR, CAMBIAR_PROGRAMA))
 
 
 def leer_encuentros(ruta):
@@ -221,7 +234,7 @@ def leer_encuentros(ruta):
     for e in leer_programa(ruta, solo_encuentros=True):
         if (e['acf']['dia'], slug(e['titulo'])) not in vistos:
             eventos.append(e)
-    return aplicar_correcciones(eventos, (), CAMBIAR_ENCUENTROS)
+    return renombrar_salas(aplicar_correcciones(eventos, (), CAMBIAR_ENCUENTROS))
 
 
 def leer_talleres(ruta):
