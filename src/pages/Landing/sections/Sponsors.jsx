@@ -1,4 +1,3 @@
-import SectionTitle from '../../../components/SectionTitle.jsx'
 const GROUPS = [
   { titulo: 'Organiza', nivel: 1, logos: [['Logo_EditorialesdeChile', 'Editoriales de Chile']] },
   {
@@ -38,10 +37,10 @@ const GROUPS = [
   },
 ]
 
-export default function Sponsors() {
+export default function Sponsors({ prev = 'var(--crema)' }) {
   return (
-    <section className="sponsors-section tear" id="auspiciadores" style={{ '--prev-bg': '#fff' }}>
-      <SectionTitle>Quienes hacen posible la feria</SectionTitle>
+    <section className="sponsors-section tear" id="auspiciadores" style={{ '--prev-bg': prev }}>
+      <h2 className="sr-only">Quienes hacen posible la feria</h2>
       <div className="sponsors-groups">
         {GROUPS.map((g) => (
           <div key={g.titulo} className={`sponsor-group${g.nivel ? ` nivel-${g.nivel}` : ''}`}>

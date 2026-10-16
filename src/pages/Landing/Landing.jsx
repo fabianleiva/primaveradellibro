@@ -90,6 +90,7 @@ export default function Landing() {
       )}
 
       <Hero />
+      <Sponsors />
       <Bienvenida />
       <Programa />
       <Talleres />
@@ -97,7 +98,6 @@ export default function Landing() {
       <FotosPreview />
       <TicketBand />
       <Mapa />
-      <Sponsors />
     </div>
   )
 }

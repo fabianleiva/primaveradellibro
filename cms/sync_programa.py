@@ -93,6 +93,9 @@ CAMBIAR_PROGRAMA = [  # (día, hora, inicio del título, cambios)
     ('sabado', '19:00', 'Divulgación y ciencias sociales', {'participantes_quitar': 'Isidora Sesnic', 'participantes_agregar': 'Osvaldo Carvajal'}),
     # Andrea Palet, 7 de octubre
     ('viernes', '17:00', 'Desmantelan el Estado', {'participantes_reemplazar': ('Rodrigo Bustos', 'Andrés Estefane')}),
+    # Andrea Palet, 8 de octubre
+    ('sabado', '12:00', 'Buceamos con mamá', {'participantes_reemplazar': ('Daniela Silva', 'Claudia Maturana')}),
+    ('domingo', '19:00', 'Beauchef 850', {'titulo': 'Beauchef 850. Movimiento estudiantil de los 80, de Marcelo Mendoza y Hugo Dimter'}),  # Marcelo Mendoza (Mandrágora), vía Andrea, 9 oct: faltaban los autores
     # Andrea Palet, 6 de octubre (2.º correo)
     ('domingo', '16:00', 'La leyenda de Electrodomésticos', {'titulo': 'La Nueva Canción Chilena - Electrodomésticos'}),
     ('viernes', '17:00', 'La envoltura de los libros', {'tipo': 'Conversación', 'descripcion_reemplazar': ('Conversatorio', 'Conversación')}),  # Andrea: "Conversación"

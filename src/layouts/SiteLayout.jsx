@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
+import Sponsors from '../pages/Landing/sections/Sponsors.jsx'
 import Navbar from '../components/Navbar/Navbar.jsx'
 import Footer from '../pages/Landing/sections/Footer.jsx'
 import '../pages/Landing/Landing.css'
@@ -30,7 +31,12 @@ function ScrollManager() {
   return null
 }
 
+// Páginas con fondo crema; las demás son blancas (de ahí sale el color del borde rasgado de los logos)
+const FONDO_CREMA = ['/talleres', '/invitados']
+
 export default function SiteLayout() {
+  const { pathname } = useLocation()
+  const esPortada = pathname === '/'
   return (
     <div className="site-root">
       <ScrollManager />
@@ -38,6 +44,7 @@ export default function SiteLayout() {
       <main>
         <Outlet />
       </main>
+      {!esPortada && <Sponsors prev={FONDO_CREMA.includes(pathname) ? 'var(--crema)' : '#fff'} />}
       <Footer />
     </div>
   )
