@@ -8,9 +8,9 @@ export default function Bienvenida() {
 
       <p className="bienvenida-eyebrow">9, 10 y 11 de octubre · Estación Mapocho</p>
       <p className="bienvenida-texto">
-        La Primavera del Libro celebra sus <mark className="mark-azul">15 años de vida</mark> y se toma la{' '}
+        La Primavera del Libro celebró sus <mark className="mark-azul">15 años de vida</mark> y se tomó la{' '}
         <mark className="mark-verde">Estación Mapocho</mark> para encontrarse con su público lector durante{' '}
-        <mark className="mark-amarillo">tres días</mark>!
+        <mark className="mark-amarillo">tres días</mark>.
       </p>
 
       <Stats />

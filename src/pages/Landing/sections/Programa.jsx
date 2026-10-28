@@ -10,7 +10,7 @@ export default function Programa() {
       <img src="/assets/collage/telefericos.webp" alt="" aria-hidden="true" className="decor decor-programa-r" />
       <img src="/assets/collage/ninos-corren.webp" alt="" aria-hidden="true" className="decor decor-programa-l" />
       <SectionTitle>Programa</SectionTitle>
-      <p className="section-subtitle">Tres días de libros, charlas, talleres y música. Algunos destacados:</p>
+      <p className="section-subtitle">Tres días de libros, charlas, talleres y música. Algunas de las actividades:</p>
 
       <div className="programa-cols">
         {PROGRAMA.map((d) => (

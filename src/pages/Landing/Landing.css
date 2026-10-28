@@ -177,7 +177,7 @@ section > *:not(.decor) { position: relative; z-index: 1; }
 .invitado-pais { font-size: 12px; color: #a0a0a0; text-transform: uppercase; letter-spacing: 0.08em; }
 
 /* ---------- Galería (preview) ---------- */
-.fotos-preview-section { padding: clamp(60px, 8vw, 100px) clamp(16px, 5vw, 60px) clamp(70px, 8vw, 100px); text-align: center; background: var(--crema); }
+.fotos-preview-section { padding: clamp(60px, 8vw, 100px) clamp(16px, 5vw, 60px) clamp(70px, 8vw, 100px); text-align: center; background: #fff; }
 .fotos-preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 900px; margin: 0 auto 44px; }
 @media (max-width: 700px) { .fotos-preview-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; } }
 .foto-frame { margin: 0; background: #fff; padding: 12px 12px 14px; box-shadow: 0 8px 20px rgba(77, 77, 77, 0.14); transform: rotate(-1.5deg); }
@@ -393,6 +393,8 @@ section > *:not(.decor) { position: relative; z-index: 1; }
 }
 .ticket-btn:hover { transform: scale(1.05); background: var(--cta-hover); }
 .ticket-nota { font-size: 13px; font-weight: 600; color: rgba(77, 77, 77, 0.8); }
+a.ticket-nota { color: var(--gris) !important; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }
+a.ticket-nota:hover { color: #fff !important; }
 
 /* ---------- Pétalos ---------- */
 .petals-layer { position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
@@ -421,7 +423,7 @@ section > *:not(.decor) { position: relative; z-index: 1; }
 .footer-copy { max-width: 1000px; margin: 40px auto 0 !important; padding-top: 18px; border-top: 1px solid rgba(249, 247, 239, 0.18); text-align: center; font-size: 12px !important; color: #b5b5b5; }
 
 /* En celular el hero termina en blanco: los logos se rasgan desde ese blanco */
-.bienvenida-section { --prev-bg: var(--crema); }
+.bienvenida-section { --prev-bg: #fff; }
 @media (max-width: 700px) {
   .hero-section { padding-top: calc(64px + clamp(14px, 2.4vw, 34px)); background: #fefefe; }
   .landing-home .sponsors-section { --prev-bg: #fefefe !important; }

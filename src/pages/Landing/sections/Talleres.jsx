@@ -12,8 +12,7 @@ export default function Talleres() {
       <img src="/assets/collage/flor-rosa.webp" alt="" aria-hidden="true" className="decor decor-talleres-l" />
       <img src="/assets/collage/mujer-lee.webp" alt="" aria-hidden="true" className="decor decor-talleres-r" />
       <SectionTitle>Talleres de oficios</SectionTitle>
-      <p className="section-subtitle">Aprende haciendo: talleres abiertos para toda la familia. Cada taller se realiza varias veces al día.</p>
-      <p className="taller-aviso">Inscripción el día de la feria</p>
+      <p className="section-subtitle">Talleres abiertos para toda la familia, que se realizaron varias veces al día durante la feria.</p>
 
       <div className="talleres-grid">
         {destacados.map((t) => (

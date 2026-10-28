@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { TICKET_URL } from '../../../config.js'
 
 export default function Footer() {
   return (
@@ -19,13 +18,12 @@ export default function Footer() {
           <Link to="/encuentros-profesionales">Encuentros profesionales</Link>
           <Link to="/invitados">Invitados</Link>
           <Link to="/galeria">Galería</Link>
-          <a href={TICKET_URL} target="_blank" rel="noopener">Conseguir ticket</a>
         </nav>
 
         <div className="footer-col">
-          <span className="footer-col-title">Visítanos</span>
+          <span className="footer-col-title">Ubicación</span>
           <p>Centro Cultural Estación Mapocho<br />Plaza de la Cultura s/n, Santiago<br />Metro Cal y Canto</p>
-          <p>Entrada liberada</p>
+          <p>15ª edición: 9, 10 y 11 de octubre de 2026</p>
           <a href="https://www.instagram.com/primaveradellibro/?hl=es" target="_blank" rel="noopener" className="footer-instagram">
             @primaveradellibro
           </a>

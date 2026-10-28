@@ -1,4 +1,4 @@
-import { TICKET_URL } from '../../../config.js'
+import { Link } from 'react-router-dom'
 
 export default function Hero() {
   return (
@@ -8,14 +8,14 @@ export default function Hero() {
           <source media="(max-width: 700px)" srcSet="/assets/hero-mobile.webp" />
           <img
             src="/assets/hero-desktop.webp"
-            alt="15ª Primavera del Libro, Feria de Editoriales de Chile. Estación Mapocho, 9, 10 y 11 de octubre de 2026. Entrada liberada."
+            alt="15ª Primavera del Libro, Feria de Editoriales de Chile. Estación Mapocho, 9, 10 y 11 de octubre de 2026."
             className="hero-img"
             fetchPriority="high"
           />
         </picture>
-        <a href={TICKET_URL} target="_blank" rel="noopener" className="hero-cta">
-          Conseguir ticket
-        </a>
+        <Link to="/galeria" className="hero-cta">
+          Ver fotos de la feria
+        </Link>
       </div>
     </section>
   )

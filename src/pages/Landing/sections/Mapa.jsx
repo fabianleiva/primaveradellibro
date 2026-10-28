@@ -28,14 +28,6 @@ export default function Mapa() {
             <strong>Fechas</strong>
             <span>9, 10 y 11 de octubre de 2026</span>
           </div>
-          <div className="mapa-info-item">
-            <strong>Horario</strong>
-            <span>De 11:00 a 21:00 hrs</span>
-          </div>
-          <div className="mapa-info-item">
-            <strong>Entrada</strong>
-            <span>Liberada — requiere ticket gratuito</span>
-          </div>
         </div>
       </div>
     </section>

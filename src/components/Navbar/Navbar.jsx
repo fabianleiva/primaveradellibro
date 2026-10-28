@@ -1,9 +1,8 @@
 import { useState, useRef } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { TICKET_URL } from '../../config.js'
 import './Navbar.css'
 
-const TOOLTIP_TEXT = '¡Nos vemos en la feria!'
+const TOOLTIP_TEXT = '¡Gracias por venir!'
 
 const LINKS = [
   { to: '/programa', label: 'Programa' },
@@ -70,11 +69,11 @@ export default function Navbar() {
             {link.label}
           </NavLink>
         ))}
-        <a href={TICKET_URL} target="_blank" rel="noopener" className="nav-ticket-menu" onClick={closeMenu}>Conseguir ticket</a>
+        <Link to="/galeria" className="nav-ticket-menu" onClick={closeMenu}>Ver fotos</Link>
       </div>
 
       <div className="nav-right">
-        <a href={TICKET_URL} target="_blank" rel="noopener" className="nav-ticket">Conseguir ticket</a>
+        <Link to="/galeria" className="nav-ticket">Ver fotos</Link>
 
         <button
           type="button"

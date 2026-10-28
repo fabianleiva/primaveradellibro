@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Hero from './sections/Hero.jsx'
 import Bienvenida from './sections/Bienvenida.jsx'
-import TicketBand from './sections/TicketBand.jsx'
+import CierreBand from './sections/CierreBand.jsx'
 import Petals from './sections/Petals.jsx'
 import Programa from './sections/Programa.jsx'
 import Talleres from './sections/Talleres.jsx'
@@ -91,12 +91,12 @@ export default function Landing() {
 
       <Hero />
       <Sponsors />
+      <FotosPreview />
       <Bienvenida />
       <Programa />
       <Talleres />
       <Invitados />
-      <FotosPreview />
-      <TicketBand />
+      <CierreBand />
       <Mapa />
     </div>
   )

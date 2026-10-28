@@ -5,13 +5,17 @@ const PLACEHOLDER_COUNT = 6
 
 export default function FotosPreview() {
   const { galeria } = useContenido()
-  const reales = galeria.fotos.filter((f) => f.src).slice(0, PLACEHOLDER_COUNT)
+  const todas = galeria.fotos.filter((f) => f.src)
+  // fotos de la edición más reciente, repartidas a lo largo de sus tres días
+  const recientes = todas.filter((f) => f.anio === todas[0]?.anio)
+  const paso = Math.max(1, Math.floor(recientes.length / PLACEHOLDER_COUNT))
+  const reales = recientes.length > PLACEHOLDER_COUNT ? Array.from({ length: PLACEHOLDER_COUNT }, (_, i) => recientes[i * paso]) : todas.slice(0, PLACEHOLDER_COUNT)
   return (
-    <section className="fotos-preview-section tear" id="galeria" style={{ '--prev-bg': '#fff' }}>
+    <section className="fotos-preview-section tear" id="galeria" style={{ '--prev-bg': 'var(--crema)' }}>
       <img src="/assets/collage/ninos-carta.webp" alt="" aria-hidden="true" className="decor decor-fotos-l" />
       <img src="/assets/collage/flor-azul.webp" alt="" aria-hidden="true" className="decor decor-fotos-r" />
-      <SectionTitle>Momentos de otras ediciones</SectionTitle>
-      <p className="section-subtitle">Una probadita de lo que hemos vivido juntos estos 15 años.</p>
+      <SectionTitle>Así se vivió la 15ª Primavera</SectionTitle>
+      <p className="section-subtitle">Tres días de libros y lectores en la Estación Mapocho. Revive la feria y las ediciones anteriores.</p>
 
       <div className="fotos-preview-grid">
         {reales.map((f) => (

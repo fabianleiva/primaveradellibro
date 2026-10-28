@@ -38,16 +38,16 @@ export default function ProgramaPage() {
       <img src="/assets/collage/telefericos.webp" alt="" aria-hidden="true" className="decor decor-programa-r" />
       <img src="/assets/collage/ninos-corren.webp" alt="" aria-hidden="true" className="decor decor-programa-l" />
 
-      <PageHeader title="Programa" subtitle="9, 10 y 11 de octubre · Estación Mapocho · Entrada liberada" />
+      <PageHeader title="Programa" subtitle="9, 10 y 11 de octubre de 2026 · Estación Mapocho" />
 
       <div className="descargar-wrap">
         <DescargarPrograma />
       </div>
 
       <p className="aviso-cruzado">
-        Además de este programa, hay <strong>talleres de oficios</strong> abiertos durante la feria. <Link to="/talleres">Ver talleres →</Link>
+        Además de este programa, hubo <strong>talleres de oficios</strong> abiertos durante la feria. <Link to="/talleres">Ver talleres →</Link>
         <br />
-        Los <strong>encuentros profesionales</strong> (jueves 8 y viernes 9) tienen su propia página. <Link to="/encuentros-profesionales">Ver encuentros →</Link>
+        Los <strong>encuentros profesionales</strong> (jueves 8 y viernes 9) tuvieron su propia página. <Link to="/encuentros-profesionales">Ver encuentros →</Link>
       </p>
 
       <div className="programa-tabs" role="tablist" aria-label="Día">

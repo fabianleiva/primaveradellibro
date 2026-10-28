@@ -29,11 +29,8 @@ const GROUPS = [
     ],
   },
   {
-    titulo: 'Entrada gratuita en',
-    logos: [
-      ['Logo_Ticketplus', 'Ticketplus'],
-      ['Logo_LengSenas', 'Lengua de señas'],
-    ],
+    titulo: 'Accesibilidad',
+    logos: [['Logo_LengSenas', 'Lengua de señas']],
   },
 ]
 

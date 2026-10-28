@@ -13,9 +13,8 @@ export default function TalleresPage() {
 
   return (
     <section className="page-section talleres-page">
-      <PageHeader title="Talleres de oficios" subtitle="Aprende haciendo: talleres abiertos, junto a Caja Los Andes." />
+      <PageHeader title="Talleres de oficios" subtitle="Aprende haciendo: talleres abiertos que se realizaron junto a Caja Los Andes." />
 
-      <p className="taller-aviso">Inscripción el día de la feria</p>
       <p className="aviso-cruzado">
         Las charlas, lanzamientos y shows están en el <Link to="/programa">programa completo →</Link>
       </p>
@@ -50,12 +49,6 @@ export default function TalleresPage() {
             {t.cupos && <span className="taller-cupos">{t.cupos}</span>}
           </article>
         ))}
-      </div>
-
-      <div className="info-box">
-        <strong>¿Cómo participar?</strong>
-        <p>Los talleres tienen <strong>cupos limitados</strong> y las <strong>inscripciones son el día de la feria, por orden de llegada</strong>. Se realizan varias veces al día.</p>
-        <p>Son para todas las edades, excepto los marcados como <strong>Mayores de 12 años</strong>. Los menores deben asistir acompañados por una persona adulta.</p>
       </div>
 
       {ejemplo.talleres && <p className="sample-note">Contenido de ejemplo — se reemplazará con los talleres oficiales.</p>}
